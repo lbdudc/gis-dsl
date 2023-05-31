@@ -1,5 +1,6 @@
 import assert from "assert";
 import parse from "../src/index.js";
+import store from "../src/store.js";
 import stripBom from "strip-bom";
 import fs from "fs";
 
@@ -11,9 +12,13 @@ function p(filePath) {
   return `test/files/${filePath}`;
 }
 
-export const getTestPath = (aPath) => `test/files/${aPath}`;
+function resetProducts() {
+  store.reset();
+}
 
 suite("Main");
+
+beforeEach(resetProducts);
 
 test("Testing standard run", () => {
   const input = readFile(p("00-input.txt"));
@@ -22,4 +27,11 @@ test("Testing standard run", () => {
   const result = parse(input);
 
   assert.deepEqual(result, expected);
+});
+
+test("Wrong entity in WMS layer", () => {
+  const input = readFile(p("01-invalid-input.txt"));
+  assert.throws(() => {
+    parse(input);
+  }, /ERROR: entity Str2eet required by layer cityLayer does not exists!!/);
 });

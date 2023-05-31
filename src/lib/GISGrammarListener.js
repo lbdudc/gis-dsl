@@ -149,15 +149,6 @@ export default class GISGrammarListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
-	// Enter a parse tree produced by GISGrammarParser#generateSPEC.
-	enterGenerateSPEC(ctx) {
-	}
-
-	// Exit a parse tree produced by GISGrammarParser#generateSPEC.
-	exitGenerateSPEC(ctx) {
-	}
-
-
 	// Enter a parse tree produced by GISGrammarParser#property.
 	enterProperty(ctx) {
 	}

@@ -55,7 +55,8 @@ CREATE WMS STYLE cityLayerStyle (
 );
 
 CREATE WMS LAYER cityLayer AS "City" (
-  City cityLayerStyle
+  City cityLayerStyle,
+  Str2eet cityLayerStyle
 );
 
 CREATE MAP streets AS "Streets" (

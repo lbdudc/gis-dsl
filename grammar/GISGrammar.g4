@@ -8,7 +8,6 @@ sentence
   : createStatement
   | useGIS
   | generateGIS
-  | generateSPEC
 ;
 
 createStatement:
@@ -64,8 +63,6 @@ mapLayer: identifier (IS_BASE_LAYER_SYMBOL)? (HIDDEN_SYMBOL)?;
 useGIS: USE_SYMBOL GIS_SYMBOL identifier SCOL_SYMBOL;
 
 generateGIS: GENERATE_SYMBOL GIS_SYMBOL identifier SCOL_SYMBOL;
-
-generateSPEC: GENERATE_SYMBOL SPEC_SYMBOL identifier SCOL_SYMBOL;
 
 property: propertyDefinition | relationshipDefinition;
 
@@ -148,7 +145,6 @@ fragment QUOTE_SYMBOL: '"';
 
 CREATE_SYMBOL: C R E A T E;
 GIS_SYMBOL: G I S;
-SPEC_SYMBOL: S P E C;
 ENTITY_SYMBOL: E N T I T Y;
 USING_SYMBOL: U S I N G;
 USE_SYMBOL: U S E;

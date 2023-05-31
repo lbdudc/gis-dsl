@@ -1,6 +1,7 @@
 {
   "author": "Álex Cortiñas",
   "dependencies": {
+    "antlr4": "^4.13.0",
     "mocha": "^10.2.0"
   },
   "devDependencies": {
