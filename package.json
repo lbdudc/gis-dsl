@@ -23,6 +23,7 @@
   "main": "src/index.js",
   "name": "gisdsl",
   "scripts": {
+    "build-grammar": "antlr -Dlanguage=JavaScript -lib grammar -o src/lib -visitor -Xexact-output-dir grammar/GISGrammar.g4",
     "lint": "npm-run-all lint_eslint lint_prettier",
     "lint_eslint": "eslint --ext js,vue --fix src test",
     "lint_prettier": "prettier --write --ignore-unknown src test",
