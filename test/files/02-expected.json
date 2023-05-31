@@ -1,0 +1,1310 @@
+{
+  "features": [
+    "GIS_SPL",
+    "DataManagement",
+    "DM_DataServer",
+    "DM_SD_PostGIS",
+    "DM_SpatialDatabase",
+    "GraphicalUserInterface",
+    "GUI_F_Creatable",
+    "GUI_F_Editable",
+    "GUI_F_Removable",
+    "GUI_Forms",
+    "GUI_L_FormLink",
+    "GUI_Lists",
+    "GUI_M_Top",
+    "GUI_Menu",
+    "GUI_StaticPages",
+    "MapViewer",
+    "MV_CI_CenterCoordinates",
+    "MV_CI_Dimensions",
+    "MV_CI_Map",
+    "MV_CI_Scale",
+    "MV_ContextInformation",
+    "MV_DetailOnClick",
+    "MV_GeoJSON",
+    "MV_LayerManagement",
+    "MV_LM_CenterViewOnLayer",
+    "MV_LM_ExternalLayer",
+    "MV_LM_HideLayer",
+    "MV_LM_Opacity",
+    "MV_LM_Order",
+    "MV_LM_Style",
+    "MV_MapCenter",
+    "MV_MapServer",
+    "MV_MC_BBox",
+    "MV_MS_GeoServer",
+    "MV_T_E_F_PDF",
+    "MV_T_E_F_URL",
+    "MV_T_E_SetScale",
+    "MV_T_E_Type",
+    "MV_T_Export",
+    "MV_T_InformationMode",
+    "MV_T_M_Distance",
+    "MV_T_M_Line",
+    "MV_T_M_Polygon",
+    "MV_T_Measure",
+    "MV_T_Pan",
+    "MV_T_Zoom",
+    "MV_T_ZoomWindow",
+    "MV_Tools",
+    "T_GIS",
+    "Tools"
+  ],
+  "data": {
+    "basicData": {
+      "name": "complete_example"
+    },
+    "dataModel": {
+      "entities": [
+        {
+          "name": "Municipality",
+          "properties": [
+            {
+              "name": "id",
+              "class": "Long (autoinc)",
+              "pk": true,
+              "required": true,
+              "unique": true
+            },
+            {
+              "name": "name",
+              "class": "String"
+            },
+            {
+              "name": "boundary",
+              "class": "MultiPolygon"
+            },
+            {
+              "name": "buildings",
+              "class": "Building",
+              "owner": false,
+              "bidirectional": "municipality",
+              "multiple": true,
+              "required": false
+            },
+            {
+              "name": "supplypipes",
+              "class": "SupplyPipe",
+              "owner": false,
+              "bidirectional": "municipality",
+              "multiple": true,
+              "required": false
+            },
+            {
+              "name": "collections",
+              "class": "Collection",
+              "owner": false,
+              "bidirectional": "municipality",
+              "multiple": true,
+              "required": false
+            },
+            {
+              "name": "purifications",
+              "class": "Purification",
+              "owner": false,
+              "bidirectional": "municipality",
+              "multiple": true,
+              "required": false
+            },
+            {
+              "name": "storages",
+              "class": "Storage",
+              "owner": false,
+              "bidirectional": "municipality",
+              "multiple": true,
+              "required": false
+            },
+            {
+              "name": "pumpings",
+              "class": "Pumping",
+              "owner": false,
+              "bidirectional": "municipality",
+              "multiple": true,
+              "required": false
+            },
+            {
+              "name": "urbanplans",
+              "class": "UrbanPlan",
+              "owner": false,
+              "bidirectional": "municipality",
+              "multiple": true,
+              "required": false
+            },
+            {
+              "name": "populationentitys",
+              "class": "PopulationEntity",
+              "owner": false,
+              "bidirectional": "municipality",
+              "multiple": true,
+              "required": false
+            },
+            {
+              "name": "roadsections",
+              "class": "RoadSection",
+              "owner": false,
+              "bidirectional": "municipality",
+              "multiple": true,
+              "required": false
+            },
+            {
+              "name": "hospitals",
+              "class": "Hospital",
+              "owner": false,
+              "bidirectional": "municipality",
+              "multiple": true,
+              "required": false
+            },
+            {
+              "name": "medicalcenters",
+              "class": "MedicalCenter",
+              "owner": false,
+              "bidirectional": "municipality",
+              "multiple": true,
+              "required": false
+            },
+            {
+              "name": "socialfacilitys",
+              "class": "SocialFacility",
+              "owner": false,
+              "bidirectional": "municipality",
+              "multiple": true,
+              "required": false
+            }
+          ],
+          "displayString": "$name"
+        },
+        {
+          "name": "Building",
+          "properties": [
+            {
+              "name": "id",
+              "class": "Long (autoinc)",
+              "pk": true,
+              "required": true,
+              "unique": true
+            },
+            {
+              "name": "boundary",
+              "class": "MultiPolygon"
+            },
+            {
+              "name": "municipality",
+              "class": "Municipality",
+              "owner": true,
+              "bidirectional": "buildings",
+              "multiple": false,
+              "required": true
+            }
+          ],
+          "displayString": "$id"
+        },
+        {
+          "name": "SupplyPipe",
+          "properties": [
+            {
+              "name": "id",
+              "class": "Long (autoinc)",
+              "pk": true,
+              "required": true,
+              "unique": true
+            },
+            {
+              "name": "material",
+              "class": "String"
+            },
+            {
+              "name": "diameter",
+              "class": "Integer"
+            },
+            {
+              "name": "state",
+              "class": "String"
+            },
+            {
+              "name": "owner",
+              "class": "String"
+            },
+            {
+              "name": "manager",
+              "class": "String"
+            },
+            {
+              "name": "route",
+              "class": "MultiLineString"
+            },
+            {
+              "name": "municipality",
+              "class": "Municipality",
+              "owner": true,
+              "bidirectional": "supplypipes",
+              "multiple": false,
+              "required": true
+            }
+          ],
+          "displayString": "$id"
+        },
+        {
+          "name": "Collection",
+          "properties": [
+            {
+              "name": "id",
+              "class": "Long (autoinc)",
+              "pk": true,
+              "required": true,
+              "unique": true
+            },
+            {
+              "name": "name",
+              "class": "String"
+            },
+            {
+              "name": "system",
+              "class": "String"
+            },
+            {
+              "name": "capacity",
+              "class": "Double"
+            },
+            {
+              "name": "state",
+              "class": "String"
+            },
+            {
+              "name": "owner",
+              "class": "String"
+            },
+            {
+              "name": "manager",
+              "class": "String"
+            },
+            {
+              "name": "location",
+              "class": "Point"
+            },
+            {
+              "name": "municipality",
+              "class": "Municipality",
+              "owner": true,
+              "bidirectional": "collections",
+              "multiple": false,
+              "required": true
+            }
+          ],
+          "displayString": "$name"
+        },
+        {
+          "name": "Purification",
+          "properties": [
+            {
+              "name": "id",
+              "class": "Long (autoinc)",
+              "pk": true,
+              "required": true,
+              "unique": true
+            },
+            {
+              "name": "name",
+              "class": "String"
+            },
+            {
+              "name": "system",
+              "class": "String"
+            },
+            {
+              "name": "capacity",
+              "class": "Double"
+            },
+            {
+              "name": "state",
+              "class": "String"
+            },
+            {
+              "name": "owner",
+              "class": "String"
+            },
+            {
+              "name": "manager",
+              "class": "String"
+            },
+            {
+              "name": "location",
+              "class": "Point"
+            },
+            {
+              "name": "municipality",
+              "class": "Municipality",
+              "owner": true,
+              "bidirectional": "purifications",
+              "multiple": false,
+              "required": true
+            }
+          ],
+          "displayString": "$name"
+        },
+        {
+          "name": "Storage",
+          "properties": [
+            {
+              "name": "id",
+              "class": "Long (autoinc)",
+              "pk": true,
+              "required": true,
+              "unique": true
+            },
+            {
+              "name": "name",
+              "class": "String"
+            },
+            {
+              "name": "capacity",
+              "class": "Double"
+            },
+            {
+              "name": "material",
+              "class": "String"
+            },
+            {
+              "name": "state",
+              "class": "String"
+            },
+            {
+              "name": "owner",
+              "class": "String"
+            },
+            {
+              "name": "manager",
+              "class": "String"
+            },
+            {
+              "name": "location",
+              "class": "Point"
+            },
+            {
+              "name": "municipality",
+              "class": "Municipality",
+              "owner": true,
+              "bidirectional": "storages",
+              "multiple": false,
+              "required": true
+            }
+          ],
+          "displayString": "$name"
+        },
+        {
+          "name": "Pumping",
+          "properties": [
+            {
+              "name": "id",
+              "class": "Long (autoinc)",
+              "pk": true,
+              "required": true,
+              "unique": true
+            },
+            {
+              "name": "name",
+              "class": "String"
+            },
+            {
+              "name": "method",
+              "class": "String"
+            },
+            {
+              "name": "capacity",
+              "class": "Double"
+            },
+            {
+              "name": "state",
+              "class": "String"
+            },
+            {
+              "name": "owner",
+              "class": "String"
+            },
+            {
+              "name": "manager",
+              "class": "String"
+            },
+            {
+              "name": "location",
+              "class": "Point"
+            },
+            {
+              "name": "municipality",
+              "class": "Municipality",
+              "owner": true,
+              "bidirectional": "pumpings",
+              "multiple": false,
+              "required": true
+            }
+          ],
+          "displayString": "$name"
+        },
+        {
+          "name": "UrbanPlan",
+          "properties": [
+            {
+              "name": "id",
+              "class": "Long (autoinc)",
+              "pk": true,
+              "required": true,
+              "unique": true
+            },
+            {
+              "name": "name",
+              "class": "String"
+            },
+            {
+              "name": "type",
+              "class": "String"
+            },
+            {
+              "name": "state",
+              "class": "String"
+            },
+            {
+              "name": "approval",
+              "class": "LocalDate"
+            },
+            {
+              "name": "zones",
+              "class": "UrbanPlanZone",
+              "owner": false,
+              "bidirectional": "plan",
+              "multiple": true,
+              "required": true
+            },
+            {
+              "name": "municipality",
+              "class": "Municipality",
+              "owner": true,
+              "bidirectional": "urbanplans",
+              "multiple": false,
+              "required": true
+            }
+          ],
+          "displayString": "$name"
+        },
+        {
+          "name": "UrbanPlanZone",
+          "properties": [
+            {
+              "name": "id",
+              "class": "Long (autoinc)",
+              "pk": true,
+              "required": true,
+              "unique": true
+            },
+            {
+              "name": "name",
+              "class": "String"
+            },
+            {
+              "name": "landuse",
+              "class": "String"
+            },
+            {
+              "name": "boundary",
+              "class": "MultiPolygon"
+            },
+            {
+              "name": "plan",
+              "class": "UrbanPlan",
+              "owner": true,
+              "bidirectional": "zones",
+              "multiple": false,
+              "required": true
+            }
+          ],
+          "displayString": "$name"
+        },
+        {
+          "name": "PopulationEntity",
+          "properties": [
+            {
+              "name": "id",
+              "class": "Long (autoinc)",
+              "pk": true,
+              "required": true,
+              "unique": true
+            },
+            {
+              "name": "name",
+              "class": "String"
+            },
+            {
+              "name": "population",
+              "class": "Integer"
+            },
+            {
+              "name": "boundary",
+              "class": "MultiPolygon"
+            },
+            {
+              "name": "settlements",
+              "class": "PopulationSettlement",
+              "owner": false,
+              "bidirectional": "populationEntity",
+              "multiple": true,
+              "required": true
+            },
+            {
+              "name": "municipality",
+              "class": "Municipality",
+              "owner": true,
+              "bidirectional": "populationentitys",
+              "multiple": false,
+              "required": true
+            }
+          ],
+          "displayString": "$name"
+        },
+        {
+          "name": "PopulationSettlement",
+          "properties": [
+            {
+              "name": "id",
+              "class": "Long (autoinc)",
+              "pk": true,
+              "required": true,
+              "unique": true
+            },
+            {
+              "name": "name",
+              "class": "String"
+            },
+            {
+              "name": "population",
+              "class": "Integer"
+            },
+            {
+              "name": "boundary",
+              "class": "MultiPolygon"
+            },
+            {
+              "name": "populationEntity",
+              "class": "PopulationEntity",
+              "owner": true,
+              "bidirectional": "settlements",
+              "multiple": false,
+              "required": true
+            }
+          ],
+          "displayString": "$name"
+        },
+        {
+          "name": "RoadSection",
+          "properties": [
+            {
+              "name": "id",
+              "class": "Long (autoinc)",
+              "pk": true,
+              "required": true,
+              "unique": true
+            },
+            {
+              "name": "type",
+              "class": "String"
+            },
+            {
+              "name": "route",
+              "class": "MultiLineString"
+            },
+            {
+              "name": "owner",
+              "class": "String"
+            },
+            {
+              "name": "manager",
+              "class": "String"
+            },
+            {
+              "name": "road",
+              "class": "Road",
+              "owner": true,
+              "bidirectional": "sections",
+              "multiple": false,
+              "required": true
+            },
+            {
+              "name": "municipality",
+              "class": "Municipality",
+              "owner": true,
+              "bidirectional": "roadsections",
+              "multiple": false,
+              "required": true
+            }
+          ],
+          "displayString": "$id"
+        },
+        {
+          "name": "Road",
+          "properties": [
+            {
+              "name": "id",
+              "class": "Long (autoinc)",
+              "pk": true,
+              "required": true,
+              "unique": true
+            },
+            {
+              "name": "shortname",
+              "class": "String"
+            },
+            {
+              "name": "name",
+              "class": "String"
+            },
+            {
+              "name": "sections",
+              "class": "RoadSection",
+              "owner": false,
+              "bidirectional": "road",
+              "multiple": true,
+              "required": true
+            }
+          ],
+          "displayString": "$name"
+        },
+        {
+          "name": "Hospital",
+          "properties": [
+            {
+              "name": "id",
+              "class": "Long (autoinc)",
+              "pk": true,
+              "required": true,
+              "unique": true
+            },
+            {
+              "name": "name",
+              "class": "String"
+            },
+            {
+              "name": "location",
+              "class": "Point"
+            },
+            {
+              "name": "municipality",
+              "class": "Municipality",
+              "owner": true,
+              "bidirectional": "hospitals",
+              "multiple": false,
+              "required": true
+            }
+          ],
+          "displayString": "$name"
+        },
+        {
+          "name": "MedicalCenter",
+          "properties": [
+            {
+              "name": "id",
+              "class": "Long (autoinc)",
+              "pk": true,
+              "required": true,
+              "unique": true
+            },
+            {
+              "name": "name",
+              "class": "String"
+            },
+            {
+              "name": "hasER",
+              "class": "Boolean"
+            },
+            {
+              "name": "location",
+              "class": "Point"
+            },
+            {
+              "name": "municipality",
+              "class": "Municipality",
+              "owner": true,
+              "bidirectional": "medicalcenters",
+              "multiple": false,
+              "required": true
+            }
+          ],
+          "displayString": "$name"
+        },
+        {
+          "name": "SocialFacility",
+          "properties": [
+            {
+              "name": "id",
+              "class": "Long (autoinc)",
+              "pk": true,
+              "required": true,
+              "unique": true
+            },
+            {
+              "name": "name",
+              "class": "String"
+            },
+            {
+              "name": "type",
+              "class": "String"
+            },
+            {
+              "name": "owner",
+              "class": "String"
+            },
+            {
+              "name": "manager",
+              "class": "String"
+            },
+            {
+              "name": "location",
+              "class": "Point"
+            },
+            {
+              "name": "municipality",
+              "class": "Municipality",
+              "owner": true,
+              "bidirectional": "socialfacilitys",
+              "multiple": false,
+              "required": true
+            }
+          ],
+          "displayString": "$name"
+        }
+      ]
+    },
+    "maps": [
+      {
+        "id": "water",
+        "label": "Water Supply",
+        "sortable": false,
+        "layers": [
+          {
+            "layer": {
+              "id": "base",
+              "type": "TileLayer",
+              "label": "OpenStreetMap",
+              "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            },
+            "isBaseLayer": true,
+            "hidden": false
+          },
+          {
+            "layer": {
+              "id": "municipalityLayer",
+              "type": "WMSLayer",
+              "label": "Municipalities",
+              "sublayers": [
+                {
+                  "entityId": "Municipality",
+                  "style": {
+                    "id": "municipalityLayerStyle",
+                    "sldPath": "/home/acortinas/sld/municipality-sld.xml"
+                  }
+                }
+              ]
+            },
+            "isBaseLayer": false,
+            "hidden": false
+          },
+          {
+            "layer": {
+              "id": "buildingLayer",
+              "type": "WMSLayer",
+              "label": "Buildings",
+              "sublayers": [
+                {
+                  "entityId": "Building",
+                  "style": {
+                    "id": "buildingLayerStyle",
+                    "sldPath": "/home/acortinas/sld/building-sld.xml"
+                  }
+                }
+              ]
+            },
+            "isBaseLayer": false,
+            "hidden": true
+          },
+          {
+            "layer": {
+              "id": "roadBackgroundLayer",
+              "type": "WMSLayer",
+              "label": "Road Network",
+              "sublayers": [
+                {
+                  "entityId": "RoadSection",
+                  "style": {
+                    "id": "roadBackgroundLayerStyle",
+                    "sldPath": "/home/acortinas/sld/road-background-sld.xml"
+                  }
+                }
+              ]
+            },
+            "isBaseLayer": false,
+            "hidden": false
+          },
+          {
+            "layer": {
+              "id": "supplyPipeLayer",
+              "type": "GeoJSONLayer",
+              "label": "Supply Pipes",
+              "entityId": "SupplyPipe",
+              "editable": true,
+              "style": {
+                "fillColor": "#243452",
+                "strokeColor": "#eeeee3",
+                "fillOpacity": "0.8",
+                "strokeOpacity": "0.9"
+              }
+            },
+            "isBaseLayer": false,
+            "hidden": false
+          },
+          {
+            "layer": {
+              "id": "collectionLayer",
+              "type": "GeoJSONLayer",
+              "label": "Collections",
+              "entityId": "Collection",
+              "editable": true,
+              "style": {
+                "fillColor": "#243452",
+                "strokeColor": "#eeeee3",
+                "fillOpacity": "0.8",
+                "strokeOpacity": "0.9"
+              }
+            },
+            "isBaseLayer": false,
+            "hidden": false
+          },
+          {
+            "layer": {
+              "id": "purificationLayer",
+              "type": "GeoJSONLayer",
+              "label": "Purification",
+              "entityId": "Purification",
+              "editable": true,
+              "style": {
+                "fillColor": "#243452",
+                "strokeColor": "#eeeee3",
+                "fillOpacity": "0.8",
+                "strokeOpacity": "0.9"
+              }
+            },
+            "isBaseLayer": false,
+            "hidden": false
+          },
+          {
+            "layer": {
+              "id": "storageLayer",
+              "type": "GeoJSONLayer",
+              "label": "Storage",
+              "entityId": "Storage",
+              "editable": true,
+              "style": {
+                "fillColor": "#243452",
+                "strokeColor": "#eeeee3",
+                "fillOpacity": "0.8",
+                "strokeOpacity": "0.9"
+              }
+            },
+            "isBaseLayer": false,
+            "hidden": false
+          },
+          {
+            "layer": {
+              "id": "pumpingLayer",
+              "type": "GeoJSONLayer",
+              "label": "Pumping",
+              "entityId": "Pumping",
+              "editable": true,
+              "style": {
+                "fillColor": "#243452",
+                "strokeColor": "#eeeee3",
+                "fillOpacity": "0.8",
+                "strokeOpacity": "0.9"
+              }
+            },
+            "isBaseLayer": false,
+            "hidden": false
+          }
+        ]
+      },
+      {
+        "id": "urban",
+        "label": "Urban Planning",
+        "sortable": false,
+        "layers": [
+          {
+            "layer": {
+              "id": "base",
+              "type": "TileLayer",
+              "label": "OpenStreetMap",
+              "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            },
+            "isBaseLayer": true,
+            "hidden": false
+          },
+          {
+            "layer": {
+              "id": "municipalityLayer",
+              "type": "WMSLayer",
+              "label": "Municipalities",
+              "sublayers": [
+                {
+                  "entityId": "Municipality",
+                  "style": {
+                    "id": "municipalityLayerStyle",
+                    "sldPath": "/home/acortinas/sld/municipality-sld.xml"
+                  }
+                }
+              ]
+            },
+            "isBaseLayer": false,
+            "hidden": false
+          },
+          {
+            "layer": {
+              "id": "buildingLayer",
+              "type": "WMSLayer",
+              "label": "Buildings",
+              "sublayers": [
+                {
+                  "entityId": "Building",
+                  "style": {
+                    "id": "buildingLayerStyle",
+                    "sldPath": "/home/acortinas/sld/building-sld.xml"
+                  }
+                }
+              ]
+            },
+            "isBaseLayer": false,
+            "hidden": true
+          },
+          {
+            "layer": {
+              "id": "roadBackgroundLayer",
+              "type": "WMSLayer",
+              "label": "Road Network",
+              "sublayers": [
+                {
+                  "entityId": "RoadSection",
+                  "style": {
+                    "id": "roadBackgroundLayerStyle",
+                    "sldPath": "/home/acortinas/sld/road-background-sld.xml"
+                  }
+                }
+              ]
+            },
+            "isBaseLayer": false,
+            "hidden": false
+          },
+          {
+            "layer": {
+              "id": "urbanPlanLayer",
+              "type": "GeoJSONLayer",
+              "label": "Urban Zones",
+              "entityId": "UrbanPlanZone",
+              "editable": true,
+              "style": {
+                "fillColor": "#243452",
+                "strokeColor": "#eeeee3",
+                "fillOpacity": "0.8",
+                "strokeOpacity": "0.9"
+              }
+            },
+            "isBaseLayer": false,
+            "hidden": false
+          }
+        ]
+      },
+      {
+        "id": "demography",
+        "label": "Demography",
+        "sortable": false,
+        "layers": [
+          {
+            "layer": {
+              "id": "base",
+              "type": "TileLayer",
+              "label": "OpenStreetMap",
+              "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            },
+            "isBaseLayer": true,
+            "hidden": false
+          },
+          {
+            "layer": {
+              "id": "municipalityLayer",
+              "type": "WMSLayer",
+              "label": "Municipalities",
+              "sublayers": [
+                {
+                  "entityId": "Municipality",
+                  "style": {
+                    "id": "municipalityLayerStyle",
+                    "sldPath": "/home/acortinas/sld/municipality-sld.xml"
+                  }
+                }
+              ]
+            },
+            "isBaseLayer": false,
+            "hidden": false
+          },
+          {
+            "layer": {
+              "id": "buildingLayer",
+              "type": "WMSLayer",
+              "label": "Buildings",
+              "sublayers": [
+                {
+                  "entityId": "Building",
+                  "style": {
+                    "id": "buildingLayerStyle",
+                    "sldPath": "/home/acortinas/sld/building-sld.xml"
+                  }
+                }
+              ]
+            },
+            "isBaseLayer": false,
+            "hidden": true
+          },
+          {
+            "layer": {
+              "id": "roadBackgroundLayer",
+              "type": "WMSLayer",
+              "label": "Road Network",
+              "sublayers": [
+                {
+                  "entityId": "RoadSection",
+                  "style": {
+                    "id": "roadBackgroundLayerStyle",
+                    "sldPath": "/home/acortinas/sld/road-background-sld.xml"
+                  }
+                }
+              ]
+            },
+            "isBaseLayer": false,
+            "hidden": false
+          },
+          {
+            "layer": {
+              "id": "demographyLayer",
+              "type": "WMSLayer",
+              "label": "Population Entities",
+              "sublayers": [
+                {
+                  "entityId": "PopulationEntity",
+                  "style": {
+                    "id": "populationEntityLayerStyle",
+                    "sldPath": "/home/acortinas/sld/population-entity-sld.xml"
+                  }
+                },
+                {
+                  "entityId": "PopulationSettlement",
+                  "style": {
+                    "id": "populationSettlementLayerStyle",
+                    "sldPath": "/home/acortinas/sld/population-settlement-sld.xml"
+                  }
+                }
+              ]
+            },
+            "isBaseLayer": false,
+            "hidden": false
+          }
+        ]
+      },
+      {
+        "id": "road",
+        "label": "Road Network",
+        "sortable": false,
+        "layers": [
+          {
+            "layer": {
+              "id": "base",
+              "type": "TileLayer",
+              "label": "OpenStreetMap",
+              "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            },
+            "isBaseLayer": true,
+            "hidden": false
+          },
+          {
+            "layer": {
+              "id": "municipalityLayer",
+              "type": "WMSLayer",
+              "label": "Municipalities",
+              "sublayers": [
+                {
+                  "entityId": "Municipality",
+                  "style": {
+                    "id": "municipalityLayerStyle",
+                    "sldPath": "/home/acortinas/sld/municipality-sld.xml"
+                  }
+                }
+              ]
+            },
+            "isBaseLayer": false,
+            "hidden": false
+          },
+          {
+            "layer": {
+              "id": "buildingLayer",
+              "type": "WMSLayer",
+              "label": "Buildings",
+              "sublayers": [
+                {
+                  "entityId": "Building",
+                  "style": {
+                    "id": "buildingLayerStyle",
+                    "sldPath": "/home/acortinas/sld/building-sld.xml"
+                  }
+                }
+              ]
+            },
+            "isBaseLayer": false,
+            "hidden": true
+          },
+          {
+            "layer": {
+              "id": "roadLayer",
+              "type": "WMSLayer",
+              "label": "Road Network",
+              "sublayers": [
+                {
+                  "entityId": "RoadSection",
+                  "style": {
+                    "id": "roadLayerStyle",
+                    "sldPath": "/home/acortinas/sld/road-sld.xml"
+                  }
+                }
+              ]
+            },
+            "isBaseLayer": false,
+            "hidden": false
+          }
+        ]
+      },
+      {
+        "id": "facilities",
+        "label": "Facilities",
+        "sortable": false,
+        "layers": [
+          {
+            "layer": {
+              "id": "base",
+              "type": "TileLayer",
+              "label": "OpenStreetMap",
+              "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            },
+            "isBaseLayer": true,
+            "hidden": false
+          },
+          {
+            "layer": {
+              "id": "municipalityLayer",
+              "type": "WMSLayer",
+              "label": "Municipalities",
+              "sublayers": [
+                {
+                  "entityId": "Municipality",
+                  "style": {
+                    "id": "municipalityLayerStyle",
+                    "sldPath": "/home/acortinas/sld/municipality-sld.xml"
+                  }
+                }
+              ]
+            },
+            "isBaseLayer": false,
+            "hidden": false
+          },
+          {
+            "layer": {
+              "id": "buildingLayer",
+              "type": "WMSLayer",
+              "label": "Buildings",
+              "sublayers": [
+                {
+                  "entityId": "Building",
+                  "style": {
+                    "id": "buildingLayerStyle",
+                    "sldPath": "/home/acortinas/sld/building-sld.xml"
+                  }
+                }
+              ]
+            },
+            "isBaseLayer": false,
+            "hidden": true
+          },
+          {
+            "layer": {
+              "id": "roadBackgroundLayer",
+              "type": "WMSLayer",
+              "label": "Road Network",
+              "sublayers": [
+                {
+                  "entityId": "RoadSection",
+                  "style": {
+                    "id": "roadBackgroundLayerStyle",
+                    "sldPath": "/home/acortinas/sld/road-background-sld.xml"
+                  }
+                }
+              ]
+            },
+            "isBaseLayer": false,
+            "hidden": false
+          },
+          {
+            "layer": {
+              "id": "hospitalLayer",
+              "type": "GeoJSONLayer",
+              "label": "Hospitals",
+              "entityId": "Hospital",
+              "editable": true,
+              "style": {
+                "fillColor": "#243452",
+                "strokeColor": "#eeeee3",
+                "fillOpacity": "0.8",
+                "strokeOpacity": "0.9"
+              }
+            },
+            "isBaseLayer": false,
+            "hidden": false
+          },
+          {
+            "layer": {
+              "id": "medicalCenterLayer",
+              "type": "GeoJSONLayer",
+              "label": "Medical Centers",
+              "entityId": "MedicalCenter",
+              "editable": true,
+              "style": {
+                "fillColor": "#243452",
+                "strokeColor": "#eeeee3",
+                "fillOpacity": "0.8",
+                "strokeOpacity": "0.9"
+              }
+            },
+            "isBaseLayer": false,
+            "hidden": false
+          },
+          {
+            "layer": {
+              "id": "socialFacilityLayer",
+              "type": "GeoJSONLayer",
+              "label": "Social Facilities",
+              "entityId": "SocialFacility",
+              "editable": true,
+              "style": {
+                "fillColor": "#243452",
+                "strokeColor": "#eeeee3",
+                "fillOpacity": "0.8",
+                "strokeOpacity": "0.9"
+              }
+            },
+            "isBaseLayer": false,
+            "hidden": false
+          }
+        ]
+      }
+    ]
+  }
+}
