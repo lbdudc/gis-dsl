@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+import meow from "meow";
+import fs from "fs";
+import gisdslParser from "./index.js";
+import path from "path";
+
+const usage = "Usage: gisdsl input output";
+
+const cli = meow(usage, {
+  importMeta: import.meta,
+});
+
+if (cli.input.length < 2) {
+  cli.showHelp();
+}
+
+const inputPath = path.resolve(process.cwd(), cli.input.at(0));
+const input = fs.readFileSync(inputPath, {
+  encoding: "utf-8",
+});
+
+const spec = gisdslParser(input);
+
+const outputPath = path.resolve(process.cwd(), cli.input.at(1));
+fs.writeFileSync(outputPath, JSON.stringify(spec, null, 2), "utf8");
+
+console.log(`File ${cli.input.at(1)} generated`);
