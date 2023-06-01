@@ -9,7 +9,7 @@ class GIS {
     this.relationships = [];
     this.enums = [];
     this.layers = {};
-    this.styles = {};
+    this.styles = [];
     this.maps = [];
   }
 
@@ -88,11 +88,11 @@ class GIS {
   }
 
   getStyle(id) {
-    return this.styles[id];
+    return this.styles.find(s => s.getId() == id);
   }
 
-  addStyle(id, style) {
-    this.styles[id] = style;
+  addStyle(style) {
+    this.styles.push(style);
   }
 
   getMap(id) {

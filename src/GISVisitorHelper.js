@@ -74,7 +74,11 @@ function transformation(spec) {
         enums: []
       },
     },
-    mapViewer: spec.maps
+    mapViewer: {
+      maps: spec.maps,
+      layers: spec.layers,
+      styles: spec.styles
+    }
   };
 
   return newSpec;
