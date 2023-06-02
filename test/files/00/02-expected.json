@@ -1,60 +1,72 @@
 {
   "features": [
-    "GIS_SPL",
+    "GEMA_SPL",
     "DataManagement",
-    "DM_DataServer",
-    "DM_SD_PostGIS",
-    "DM_SpatialDatabase",
     "GraphicalUserInterface",
-    "GUI_F_Creatable",
-    "GUI_F_Editable",
-    "GUI_F_Removable",
-    "GUI_Forms",
-    "GUI_L_FormLink",
-    "GUI_Lists",
-    "GUI_M_Top",
-    "GUI_Menu",
-    "GUI_StaticPages",
     "MapViewer",
+    "Tools",
+    "DM_SpatialDatabase",
+    "DM_GenerationType",
+    "DM_DataServer",
+    "MV_MapServer",
+    "MV_Tools",
+    "MV_MapManagement",
+    "DM_SD_PostGIS",
+    "MV_T_Pan",
+    "MV_T_Zoom",
+    "DM_GT_Sequence",
+    "MV_MapCenter",
+    "MV_MM_UniqueMapViewer",
+    "MV_MS_GeoServer",
+    "GUI_Forms",
+    "GUI_F_Editable",
+    "GUI_F_Creatable",
+    "GUI_F_Removable",
+    "GUI_F_R_ConfirmationAlert",
+    "GUI_Lists",
+    "GUI_L_FormLink",
+    "GUI_L_F_BasicSearch",
+    "GUI_L_Filterable",
+    "GUI_L_Sortable",
+    "GUI_L_LocateInMap",
+    "GUI_L_ViewListAsMap",
+    "GUI_L_Export",
+    "GUI_StaticPages",
+    "MV_MC_BBox",
+    "MV_ContextInformation",
+    "MV_CI_Scale",
+    "MV_CI_Map",
     "MV_CI_CenterCoordinates",
     "MV_CI_Dimensions",
-    "MV_CI_Map",
-    "MV_CI_Scale",
-    "MV_ContextInformation",
     "MV_DetailOnClick",
     "MV_GeoJSON",
     "MV_LayerManagement",
     "MV_LM_CenterViewOnLayer",
-    "MV_LM_ExternalLayer",
-    "MV_LM_HideLayer",
-    "MV_LM_Opacity",
     "MV_LM_Order",
+    "MV_LM_Opacity",
+    "MV_LM_HideLayer",
     "MV_LM_Style",
-    "MV_MapCenter",
-    "MV_MapServer",
-    "MV_MC_BBox",
-    "MV_MS_GeoServer",
-    "MV_T_E_F_PDF",
-    "MV_T_E_F_URL",
-    "MV_T_E_SetScale",
-    "MV_T_E_Type",
+    "MV_LM_ExternalLayer",
+    "MV_LM_StylePreview",
     "MV_T_Export",
+    "MV_T_E_Type",
+    "MV_T_E_F_URL",
+    "MV_T_E_F_PDF",
+    "MV_T_E_SetScale",
+    "MV_T_E_ShowLegend",
     "MV_T_InformationMode",
+    "MV_T_MeasureControl",
     "MV_T_M_Distance",
     "MV_T_M_Line",
     "MV_T_M_Polygon",
-    "MV_T_Measure",
-    "MV_T_Pan",
-    "MV_T_Zoom",
     "MV_T_ZoomWindow",
-    "MV_Tools",
     "T_GIS",
-    "Tools"
+    "T_EntitiesInformation"
   ],
+  "basicData": {
+    "name": "complete_example"
+  },
   "data": {
-    "basicData": {
-      "name": "complete_example"
-    },
     "dataModel": {
       "entities": [
         {
@@ -769,541 +781,486 @@
           ],
           "displayString": "$name"
         }
-      ]
-    },
+      ],
+      "enums": []
+    }
+  },
+  "mapViewer": {
     "maps": [
       {
-        "id": "water",
+        "name": "water",
         "label": "Water Supply",
         "sortable": false,
         "layers": [
           {
-            "layer": {
-              "id": "base",
-              "type": "TileLayer",
-              "label": "OpenStreetMap",
-              "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            },
-            "isBaseLayer": true,
-            "hidden": false
+            "name": "base",
+            "baseLayer": true,
+            "selected": true
           },
           {
-            "layer": {
-              "id": "municipalityLayer",
-              "type": "WMSLayer",
-              "label": "Municipalities",
-              "sublayers": [
-                {
-                  "entityId": "Municipality",
-                  "style": {
-                    "id": "municipalityLayerStyle",
-                    "sldPath": "/home/acortinas/sld/municipality-sld.xml"
-                  }
-                }
-              ]
-            },
-            "isBaseLayer": false,
-            "hidden": false
+            "name": "municipalityLayer",
+            "baseLayer": false,
+            "selected": true
           },
           {
-            "layer": {
-              "id": "buildingLayer",
-              "type": "WMSLayer",
-              "label": "Buildings",
-              "sublayers": [
-                {
-                  "entityId": "Building",
-                  "style": {
-                    "id": "buildingLayerStyle",
-                    "sldPath": "/home/acortinas/sld/building-sld.xml"
-                  }
-                }
-              ]
-            },
-            "isBaseLayer": false,
-            "hidden": true
+            "name": "buildingLayer",
+            "baseLayer": false,
+            "selected": false
           },
           {
-            "layer": {
-              "id": "roadBackgroundLayer",
-              "type": "WMSLayer",
-              "label": "Road Network",
-              "sublayers": [
-                {
-                  "entityId": "RoadSection",
-                  "style": {
-                    "id": "roadBackgroundLayerStyle",
-                    "sldPath": "/home/acortinas/sld/road-background-sld.xml"
-                  }
-                }
-              ]
-            },
-            "isBaseLayer": false,
-            "hidden": false
+            "name": "roadBackgroundLayer",
+            "baseLayer": false,
+            "selected": true
           },
           {
-            "layer": {
-              "id": "supplyPipeLayer",
-              "type": "GeoJSONLayer",
-              "label": "Supply Pipes",
-              "entityId": "SupplyPipe",
-              "editable": true,
-              "style": {
-                "fillColor": "#243452",
-                "strokeColor": "#eeeee3",
-                "fillOpacity": "0.8",
-                "strokeOpacity": "0.9"
-              }
-            },
-            "isBaseLayer": false,
-            "hidden": false
+            "name": "supplyPipeLayer",
+            "baseLayer": false,
+            "selected": true
           },
           {
-            "layer": {
-              "id": "collectionLayer",
-              "type": "GeoJSONLayer",
-              "label": "Collections",
-              "entityId": "Collection",
-              "editable": true,
-              "style": {
-                "fillColor": "#243452",
-                "strokeColor": "#eeeee3",
-                "fillOpacity": "0.8",
-                "strokeOpacity": "0.9"
-              }
-            },
-            "isBaseLayer": false,
-            "hidden": false
+            "name": "collectionLayer",
+            "baseLayer": false,
+            "selected": true
           },
           {
-            "layer": {
-              "id": "purificationLayer",
-              "type": "GeoJSONLayer",
-              "label": "Purification",
-              "entityId": "Purification",
-              "editable": true,
-              "style": {
-                "fillColor": "#243452",
-                "strokeColor": "#eeeee3",
-                "fillOpacity": "0.8",
-                "strokeOpacity": "0.9"
-              }
-            },
-            "isBaseLayer": false,
-            "hidden": false
+            "name": "purificationLayer",
+            "baseLayer": false,
+            "selected": true
           },
           {
-            "layer": {
-              "id": "storageLayer",
-              "type": "GeoJSONLayer",
-              "label": "Storage",
-              "entityId": "Storage",
-              "editable": true,
-              "style": {
-                "fillColor": "#243452",
-                "strokeColor": "#eeeee3",
-                "fillOpacity": "0.8",
-                "strokeOpacity": "0.9"
-              }
-            },
-            "isBaseLayer": false,
-            "hidden": false
+            "name": "storageLayer",
+            "baseLayer": false,
+            "selected": true
           },
           {
-            "layer": {
-              "id": "pumpingLayer",
-              "type": "GeoJSONLayer",
-              "label": "Pumping",
-              "entityId": "Pumping",
-              "editable": true,
-              "style": {
-                "fillColor": "#243452",
-                "strokeColor": "#eeeee3",
-                "fillOpacity": "0.8",
-                "strokeOpacity": "0.9"
-              }
-            },
-            "isBaseLayer": false,
-            "hidden": false
+            "name": "pumpingLayer",
+            "baseLayer": false,
+            "selected": true
           }
         ]
       },
       {
-        "id": "urban",
+        "name": "urban",
         "label": "Urban Planning",
         "sortable": false,
         "layers": [
           {
-            "layer": {
-              "id": "base",
-              "type": "TileLayer",
-              "label": "OpenStreetMap",
-              "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            },
-            "isBaseLayer": true,
-            "hidden": false
+            "name": "base",
+            "baseLayer": true,
+            "selected": true
           },
           {
-            "layer": {
-              "id": "municipalityLayer",
-              "type": "WMSLayer",
-              "label": "Municipalities",
-              "sublayers": [
-                {
-                  "entityId": "Municipality",
-                  "style": {
-                    "id": "municipalityLayerStyle",
-                    "sldPath": "/home/acortinas/sld/municipality-sld.xml"
-                  }
-                }
-              ]
-            },
-            "isBaseLayer": false,
-            "hidden": false
+            "name": "municipalityLayer",
+            "baseLayer": false,
+            "selected": true
           },
           {
-            "layer": {
-              "id": "buildingLayer",
-              "type": "WMSLayer",
-              "label": "Buildings",
-              "sublayers": [
-                {
-                  "entityId": "Building",
-                  "style": {
-                    "id": "buildingLayerStyle",
-                    "sldPath": "/home/acortinas/sld/building-sld.xml"
-                  }
-                }
-              ]
-            },
-            "isBaseLayer": false,
-            "hidden": true
+            "name": "buildingLayer",
+            "baseLayer": false,
+            "selected": false
           },
           {
-            "layer": {
-              "id": "roadBackgroundLayer",
-              "type": "WMSLayer",
-              "label": "Road Network",
-              "sublayers": [
-                {
-                  "entityId": "RoadSection",
-                  "style": {
-                    "id": "roadBackgroundLayerStyle",
-                    "sldPath": "/home/acortinas/sld/road-background-sld.xml"
-                  }
-                }
-              ]
-            },
-            "isBaseLayer": false,
-            "hidden": false
+            "name": "roadBackgroundLayer",
+            "baseLayer": false,
+            "selected": true
           },
           {
-            "layer": {
-              "id": "urbanPlanLayer",
-              "type": "GeoJSONLayer",
-              "label": "Urban Zones",
-              "entityId": "UrbanPlanZone",
-              "editable": true,
-              "style": {
-                "fillColor": "#243452",
-                "strokeColor": "#eeeee3",
-                "fillOpacity": "0.8",
-                "strokeOpacity": "0.9"
-              }
-            },
-            "isBaseLayer": false,
-            "hidden": false
+            "name": "urbanPlanLayer",
+            "baseLayer": false,
+            "selected": true
           }
         ]
       },
       {
-        "id": "demography",
+        "name": "demography",
         "label": "Demography",
         "sortable": false,
         "layers": [
           {
-            "layer": {
-              "id": "base",
-              "type": "TileLayer",
-              "label": "OpenStreetMap",
-              "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            },
-            "isBaseLayer": true,
-            "hidden": false
+            "name": "base",
+            "baseLayer": true,
+            "selected": true
           },
           {
-            "layer": {
-              "id": "municipalityLayer",
-              "type": "WMSLayer",
-              "label": "Municipalities",
-              "sublayers": [
-                {
-                  "entityId": "Municipality",
-                  "style": {
-                    "id": "municipalityLayerStyle",
-                    "sldPath": "/home/acortinas/sld/municipality-sld.xml"
-                  }
-                }
-              ]
-            },
-            "isBaseLayer": false,
-            "hidden": false
+            "name": "municipalityLayer",
+            "baseLayer": false,
+            "selected": true
           },
           {
-            "layer": {
-              "id": "buildingLayer",
-              "type": "WMSLayer",
-              "label": "Buildings",
-              "sublayers": [
-                {
-                  "entityId": "Building",
-                  "style": {
-                    "id": "buildingLayerStyle",
-                    "sldPath": "/home/acortinas/sld/building-sld.xml"
-                  }
-                }
-              ]
-            },
-            "isBaseLayer": false,
-            "hidden": true
+            "name": "buildingLayer",
+            "baseLayer": false,
+            "selected": false
           },
           {
-            "layer": {
-              "id": "roadBackgroundLayer",
-              "type": "WMSLayer",
-              "label": "Road Network",
-              "sublayers": [
-                {
-                  "entityId": "RoadSection",
-                  "style": {
-                    "id": "roadBackgroundLayerStyle",
-                    "sldPath": "/home/acortinas/sld/road-background-sld.xml"
-                  }
-                }
-              ]
-            },
-            "isBaseLayer": false,
-            "hidden": false
+            "name": "roadBackgroundLayer",
+            "baseLayer": false,
+            "selected": true
           },
           {
-            "layer": {
-              "id": "demographyLayer",
-              "type": "WMSLayer",
-              "label": "Population Entities",
-              "sublayers": [
-                {
-                  "entityId": "PopulationEntity",
-                  "style": {
-                    "id": "populationEntityLayerStyle",
-                    "sldPath": "/home/acortinas/sld/population-entity-sld.xml"
-                  }
-                },
-                {
-                  "entityId": "PopulationSettlement",
-                  "style": {
-                    "id": "populationSettlementLayerStyle",
-                    "sldPath": "/home/acortinas/sld/population-settlement-sld.xml"
-                  }
-                }
-              ]
-            },
-            "isBaseLayer": false,
-            "hidden": false
+            "name": "demographyLayer",
+            "baseLayer": false,
+            "selected": true
           }
         ]
       },
       {
-        "id": "road",
+        "name": "road",
         "label": "Road Network",
         "sortable": false,
         "layers": [
           {
-            "layer": {
-              "id": "base",
-              "type": "TileLayer",
-              "label": "OpenStreetMap",
-              "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            },
-            "isBaseLayer": true,
-            "hidden": false
+            "name": "base",
+            "baseLayer": true,
+            "selected": true
           },
           {
-            "layer": {
-              "id": "municipalityLayer",
-              "type": "WMSLayer",
-              "label": "Municipalities",
-              "sublayers": [
-                {
-                  "entityId": "Municipality",
-                  "style": {
-                    "id": "municipalityLayerStyle",
-                    "sldPath": "/home/acortinas/sld/municipality-sld.xml"
-                  }
-                }
-              ]
-            },
-            "isBaseLayer": false,
-            "hidden": false
+            "name": "municipalityLayer",
+            "baseLayer": false,
+            "selected": true
           },
           {
-            "layer": {
-              "id": "buildingLayer",
-              "type": "WMSLayer",
-              "label": "Buildings",
-              "sublayers": [
-                {
-                  "entityId": "Building",
-                  "style": {
-                    "id": "buildingLayerStyle",
-                    "sldPath": "/home/acortinas/sld/building-sld.xml"
-                  }
-                }
-              ]
-            },
-            "isBaseLayer": false,
-            "hidden": true
+            "name": "buildingLayer",
+            "baseLayer": false,
+            "selected": false
           },
           {
-            "layer": {
-              "id": "roadLayer",
-              "type": "WMSLayer",
-              "label": "Road Network",
-              "sublayers": [
-                {
-                  "entityId": "RoadSection",
-                  "style": {
-                    "id": "roadLayerStyle",
-                    "sldPath": "/home/acortinas/sld/road-sld.xml"
-                  }
-                }
-              ]
-            },
-            "isBaseLayer": false,
-            "hidden": false
+            "name": "roadLayer",
+            "baseLayer": false,
+            "selected": true
           }
         ]
       },
       {
-        "id": "facilities",
+        "name": "facilities",
         "label": "Facilities",
         "sortable": false,
         "layers": [
           {
-            "layer": {
-              "id": "base",
-              "type": "TileLayer",
-              "label": "OpenStreetMap",
-              "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            },
-            "isBaseLayer": true,
-            "hidden": false
+            "name": "base",
+            "baseLayer": true,
+            "selected": true
           },
           {
-            "layer": {
-              "id": "municipalityLayer",
-              "type": "WMSLayer",
-              "label": "Municipalities",
-              "sublayers": [
-                {
-                  "entityId": "Municipality",
-                  "style": {
-                    "id": "municipalityLayerStyle",
-                    "sldPath": "/home/acortinas/sld/municipality-sld.xml"
-                  }
-                }
-              ]
-            },
-            "isBaseLayer": false,
-            "hidden": false
+            "name": "municipalityLayer",
+            "baseLayer": false,
+            "selected": true
           },
           {
-            "layer": {
-              "id": "buildingLayer",
-              "type": "WMSLayer",
-              "label": "Buildings",
-              "sublayers": [
-                {
-                  "entityId": "Building",
-                  "style": {
-                    "id": "buildingLayerStyle",
-                    "sldPath": "/home/acortinas/sld/building-sld.xml"
-                  }
-                }
-              ]
-            },
-            "isBaseLayer": false,
-            "hidden": true
+            "name": "buildingLayer",
+            "baseLayer": false,
+            "selected": false
           },
           {
-            "layer": {
-              "id": "roadBackgroundLayer",
-              "type": "WMSLayer",
-              "label": "Road Network",
-              "sublayers": [
-                {
-                  "entityId": "RoadSection",
-                  "style": {
-                    "id": "roadBackgroundLayerStyle",
-                    "sldPath": "/home/acortinas/sld/road-background-sld.xml"
-                  }
-                }
-              ]
-            },
-            "isBaseLayer": false,
-            "hidden": false
+            "name": "roadBackgroundLayer",
+            "baseLayer": false,
+            "selected": true
           },
           {
-            "layer": {
-              "id": "hospitalLayer",
-              "type": "GeoJSONLayer",
-              "label": "Hospitals",
-              "entityId": "Hospital",
-              "editable": true,
-              "style": {
-                "fillColor": "#243452",
-                "strokeColor": "#eeeee3",
-                "fillOpacity": "0.8",
-                "strokeOpacity": "0.9"
-              }
-            },
-            "isBaseLayer": false,
-            "hidden": false
+            "name": "hospitalLayer",
+            "baseLayer": false,
+            "selected": true
           },
           {
-            "layer": {
-              "id": "medicalCenterLayer",
-              "type": "GeoJSONLayer",
-              "label": "Medical Centers",
-              "entityId": "MedicalCenter",
-              "editable": true,
-              "style": {
-                "fillColor": "#243452",
-                "strokeColor": "#eeeee3",
-                "fillOpacity": "0.8",
-                "strokeOpacity": "0.9"
-              }
-            },
-            "isBaseLayer": false,
-            "hidden": false
+            "name": "medicalCenterLayer",
+            "baseLayer": false,
+            "selected": true
           },
           {
-            "layer": {
-              "id": "socialFacilityLayer",
-              "type": "GeoJSONLayer",
-              "label": "Social Facilities",
-              "entityId": "SocialFacility",
-              "editable": true,
-              "style": {
-                "fillColor": "#243452",
-                "strokeColor": "#eeeee3",
-                "fillOpacity": "0.8",
-                "strokeOpacity": "0.9"
-              }
-            },
-            "isBaseLayer": false,
-            "hidden": false
+            "name": "socialFacilityLayer",
+            "baseLayer": false,
+            "selected": true
           }
         ]
+      }
+    ],
+    "layers": {
+      "base": {
+        "name": "base",
+        "type": "tilelayer",
+        "label": "OpenStreetMap",
+        "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      },
+      "municipalityLayer": {
+        "name": "municipalityLayer",
+        "type": "wms",
+        "label": "Municipalities",
+        "list": "Municipality",
+        "layers": [
+          "Municipality"
+        ],
+        "availableStyles": [
+          "municipalityLayerStyle"
+        ],
+        "defaultStyles": "municipalityLayerStyle"
+      },
+      "buildingLayer": {
+        "name": "buildingLayer",
+        "type": "wms",
+        "label": "Buildings",
+        "list": "Building",
+        "layers": [
+          "Building"
+        ],
+        "availableStyles": [
+          "buildingLayerStyle"
+        ],
+        "defaultStyles": "buildingLayerStyle"
+      },
+      "roadBackgroundLayer": {
+        "name": "roadBackgroundLayer",
+        "type": "wms",
+        "label": "Road Network",
+        "list": "RoadSection",
+        "layers": [
+          "RoadSection"
+        ],
+        "availableStyles": [
+          "roadBackgroundLayerStyle"
+        ],
+        "defaultStyles": "roadBackgroundLayerStyle"
+      },
+      "roadLayer": {
+        "name": "roadLayer",
+        "type": "wms",
+        "label": "Road Network",
+        "list": "RoadSection",
+        "layers": [
+          "RoadSection"
+        ],
+        "availableStyles": [
+          "roadLayerStyle"
+        ],
+        "defaultStyles": "roadLayerStyle"
+      },
+      "demographyLayer": {
+        "name": "demographyLayer",
+        "type": "wms",
+        "label": "Population Entities",
+        "list": "PopulationSettlement",
+        "layers": [
+          "PopulationEntity",
+          "PopulationSettlement"
+        ],
+        "availableStyles": [
+          "populationEntityLayerStyle",
+          "populationSettlementLayerStyle"
+        ],
+        "defaultStyles": "populationSettlementLayerStyle"
+      },
+      "supplyPipeLayer": {
+        "name": "supplyPipeLayer",
+        "type": "geojson",
+        "label": "Supply Pipes",
+        "entityName": "SupplyPipe",
+        "editable": true,
+        "defaultStyle": "supplyPipeLayerStyle",
+        "availableStyles": [
+          "supplyPipeLayerStyle"
+        ]
+      },
+      "collectionLayer": {
+        "name": "collectionLayer",
+        "type": "geojson",
+        "label": "Collections",
+        "entityName": "Collection",
+        "editable": true,
+        "defaultStyle": "collectionLayerStyle",
+        "availableStyles": [
+          "collectionLayerStyle"
+        ]
+      },
+      "purificationLayer": {
+        "name": "purificationLayer",
+        "type": "geojson",
+        "label": "Purification",
+        "entityName": "Purification",
+        "editable": true,
+        "defaultStyle": "purificationLayerStyle",
+        "availableStyles": [
+          "purificationLayerStyle"
+        ]
+      },
+      "storageLayer": {
+        "name": "storageLayer",
+        "type": "geojson",
+        "label": "Storage",
+        "entityName": "Storage",
+        "editable": true,
+        "defaultStyle": "storageLayerStyle",
+        "availableStyles": [
+          "storageLayerStyle"
+        ]
+      },
+      "pumpingLayer": {
+        "name": "pumpingLayer",
+        "type": "geojson",
+        "label": "Pumping",
+        "entityName": "Pumping",
+        "editable": true,
+        "defaultStyle": "pumpingLayerStyle",
+        "availableStyles": [
+          "pumpingLayerStyle"
+        ]
+      },
+      "urbanPlanLayer": {
+        "name": "urbanPlanLayer",
+        "type": "geojson",
+        "label": "Urban Zones",
+        "entityName": "UrbanPlanZone",
+        "editable": true,
+        "defaultStyle": "urbanPlanLayerStyle",
+        "availableStyles": [
+          "urbanPlanLayerStyle"
+        ]
+      },
+      "hospitalLayer": {
+        "name": "hospitalLayer",
+        "type": "geojson",
+        "label": "Hospitals",
+        "entityName": "Hospital",
+        "editable": true,
+        "defaultStyle": "hospitalLayerStyle",
+        "availableStyles": [
+          "hospitalLayerStyle"
+        ]
+      },
+      "medicalCenterLayer": {
+        "name": "medicalCenterLayer",
+        "type": "geojson",
+        "label": "Medical Centers",
+        "entityName": "MedicalCenter",
+        "editable": true,
+        "defaultStyle": "medicalCenterLayerStyle",
+        "availableStyles": [
+          "medicalCenterLayerStyle"
+        ]
+      },
+      "socialFacilityLayer": {
+        "name": "socialFacilityLayer",
+        "type": "geojson",
+        "label": "Social Facilities",
+        "entityName": "SocialFacility",
+        "editable": true,
+        "defaultStyle": "socialFacilityLayerStyle",
+        "availableStyles": [
+          "socialFacilityLayerStyle"
+        ]
+      }
+    },
+    "styles": [
+      {
+        "name": "municipalityLayerStyle",
+        "type": "WMSLayerSLDStyle",
+        "cached": true,
+        "sldPath": "/home/acortinas/sld/municipality-sld.xml",
+        "sld": "@include:/home/acortinas/sld/municipality-sld.xml"
+      },
+      {
+        "name": "buildingLayerStyle",
+        "type": "WMSLayerSLDStyle",
+        "cached": true,
+        "sldPath": "/home/acortinas/sld/building-sld.xml",
+        "sld": "@include:/home/acortinas/sld/building-sld.xml"
+      },
+      {
+        "name": "roadBackgroundLayerStyle",
+        "type": "WMSLayerSLDStyle",
+        "cached": true,
+        "sldPath": "/home/acortinas/sld/road-background-sld.xml",
+        "sld": "@include:/home/acortinas/sld/road-background-sld.xml"
+      },
+      {
+        "name": "roadLayerStyle",
+        "type": "WMSLayerSLDStyle",
+        "cached": true,
+        "sldPath": "/home/acortinas/sld/road-sld.xml",
+        "sld": "@include:/home/acortinas/sld/road-sld.xml"
+      },
+      {
+        "name": "populationEntityLayerStyle",
+        "type": "WMSLayerSLDStyle",
+        "cached": true,
+        "sldPath": "/home/acortinas/sld/population-entity-sld.xml",
+        "sld": "@include:/home/acortinas/sld/population-entity-sld.xml"
+      },
+      {
+        "name": "populationSettlementLayerStyle",
+        "type": "WMSLayerSLDStyle",
+        "cached": true,
+        "sldPath": "/home/acortinas/sld/population-settlement-sld.xml",
+        "sld": "@include:/home/acortinas/sld/population-settlement-sld.xml"
+      },
+      {
+        "name": "supplyPipeLayerStyle",
+        "type": "GeoJSONLayerStyle",
+        "fillColor": "#243452",
+        "strokeColor": "#eeeee3",
+        "fillOpacity": "0.8",
+        "strokeOpacity": "0.9"
+      },
+      {
+        "name": "collectionLayerStyle",
+        "type": "GeoJSONLayerStyle",
+        "fillColor": "#243452",
+        "strokeColor": "#eeeee3",
+        "fillOpacity": "0.8",
+        "strokeOpacity": "0.9"
+      },
+      {
+        "name": "purificationLayerStyle",
+        "type": "GeoJSONLayerStyle",
+        "fillColor": "#243452",
+        "strokeColor": "#eeeee3",
+        "fillOpacity": "0.8",
+        "strokeOpacity": "0.9"
+      },
+      {
+        "name": "storageLayerStyle",
+        "type": "GeoJSONLayerStyle",
+        "fillColor": "#243452",
+        "strokeColor": "#eeeee3",
+        "fillOpacity": "0.8",
+        "strokeOpacity": "0.9"
+      },
+      {
+        "name": "pumpingLayerStyle",
+        "type": "GeoJSONLayerStyle",
+        "fillColor": "#243452",
+        "strokeColor": "#eeeee3",
+        "fillOpacity": "0.8",
+        "strokeOpacity": "0.9"
+      },
+      {
+        "name": "urbanPlanLayerStyle",
+        "type": "GeoJSONLayerStyle",
+        "fillColor": "#243452",
+        "strokeColor": "#eeeee3",
+        "fillOpacity": "0.8",
+        "strokeOpacity": "0.9"
+      },
+      {
+        "name": "hospitalLayerStyle",
+        "type": "GeoJSONLayerStyle",
+        "fillColor": "#243452",
+        "strokeColor": "#eeeee3",
+        "fillOpacity": "0.8",
+        "strokeOpacity": "0.9"
+      },
+      {
+        "name": "medicalCenterLayerStyle",
+        "type": "GeoJSONLayerStyle",
+        "fillColor": "#243452",
+        "strokeColor": "#eeeee3",
+        "fillOpacity": "0.8",
+        "strokeOpacity": "0.9"
+      },
+      {
+        "name": "socialFacilityLayerStyle",
+        "type": "GeoJSONLayerStyle",
+        "fillColor": "#243452",
+        "strokeColor": "#eeeee3",
+        "fillOpacity": "0.8",
+        "strokeOpacity": "0.9"
       }
     ]
   }

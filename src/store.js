@@ -57,6 +57,7 @@ function setLastGeneratedProduct(generatedProduct) {
 
 function reset() {
   store.products.splice(0, store.products.length);
+  store.lastGeneratedProduct = null;
 }
 
 export default {

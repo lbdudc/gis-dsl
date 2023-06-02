@@ -1,6 +1,13 @@
 import GISGrammarVisitor from "./lib/GISGrammarVisitor.js";
 import GIS from "./spl/GIS.js";
-import { TileLayer, GeoJSONLayer, WMSStyle, WMSLayer, Map } from "./spl/Map.js";
+import {
+  TileLayer,
+  GeoJSONLayer,
+  WMSStyle,
+  WMSLayer,
+  Map,
+  GeoJSONLayerStyle,
+} from "./spl/Map.js";
 import { transformation, getPropertyParams } from "./GISVisitorHelper.js";
 // import { generateProduct } from "./project-generator.js";
 
@@ -176,14 +183,28 @@ class Visitor extends GISGrammarVisitor {
     );
     this.store
       .getCurrentProduct()
-      .addLayer(id, new GeoJSONLayer(id, label, entityId, editable, style));
+      .addStyle(
+        new GeoJSONLayerStyle(
+          id + "Style",
+          style.fillColor,
+          style.strokeColor,
+          style.fillOpacity,
+          style.strokeOpacity
+        )
+      );
+    this.store
+      .getCurrentProduct()
+      .addLayer(
+        id,
+        new GeoJSONLayer(id, label, entityId, editable, id + "Style")
+      );
   }
 
   visitCreateWmsStyle(ctx) {
     const id = ctx.getChild(2).getText();
     const sld = ctx.getChild(5).getText().slice(1, -1);
     this.log(`visitCreateWmsStyle ${id} with ${sld}`);
-    this.store.getCurrentProduct().addStyle(id, new WMSStyle(id, sld));
+    this.store.getCurrentProduct().addStyle(new WMSStyle(id, sld));
   }
 
   visitCreateWmsLayer(ctx) {
@@ -194,7 +215,8 @@ class Visitor extends GISGrammarVisitor {
       aux,
       entity,
       auxEntityName,
-      style;
+      style,
+      styleName;
     if (ctx.getChild(3).getText() != ")") {
       // tiene label
       label = ctx.getChild(4).getText().slice(1, -1);
@@ -212,13 +234,12 @@ class Visitor extends GISGrammarVisitor {
         throw `ERROR: entity ${auxEntityName} required by layer ${id} does not exists!!`;
       }
 
-      style = this.store
-        .getCurrentProduct()
-        .getStyle(aux.getChild(1).getText());
+      styleName = aux.getChild(1).getText();
+      style = this.store.getCurrentProduct().getStyle(styleName);
       if (!style) {
         throw `Style ${aux.getChild(1).getText()} does not exist!!!`;
       }
-      layer.addSubLayer(entity.name, style);
+      layer.addSubLayer(entity.name, styleName);
     }
     this.log(`visitCreateWmsLayer ${id} - ${label}`);
 
@@ -255,7 +276,7 @@ class Visitor extends GISGrammarVisitor {
       if (!auxLayer) {
         throw `Layer ${l.id} does not exists!!!`;
       }
-      map.addLayer(auxLayer, l.baseLayer, l.hidden);
+      map.addLayer(l.id, l.baseLayer, l.hidden);
     });
     this.store.getCurrentProduct().addMap(id, map);
   }
@@ -282,6 +303,18 @@ class Visitor extends GISGrammarVisitor {
   visitCreateSortableMap(ctx) {
     this.log(`visitCreateSortableMap`);
     this.visitCreateMap(ctx.getChild(1), true);
+  }
+
+  /* ****************** Deployment ************************ */
+
+  visitDeploymentProperty(ctx) {
+    this.log(`visitDeploymentProperty`);
+    this.store
+      .getCurrentProduct()
+      .addDeploymentProperty(
+        ctx.getChild(0).getText().slice(1, -1),
+        ctx.getChild(1).getText().slice(1, -1)
+      );
   }
 }
 

@@ -65,16 +65,25 @@ function transformation(spec) {
       "T_GIS",
       "T_EntitiesInformation",
     ],
+    basicData: {
+      name: spec.name,
+    },
     data: {
-      basicData: {
-        name: spec.name,
-      },
       dataModel: {
         entities: spec.entities,
+        enums: [],
       },
+    },
+    mapViewer: {
       maps: spec.maps,
+      layers: spec.layers,
+      styles: spec.styles,
     },
   };
+
+  if (spec.extra) {
+    newSpec.basicData.extra = spec.extra;
+  }
 
   return newSpec;
 }

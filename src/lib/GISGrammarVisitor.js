@@ -102,6 +102,18 @@ export default class GISGrammarVisitor extends antlr4.tree.ParseTreeVisitor {
 	}
 
 
+	// Visit a parse tree produced by GISGrammarParser#setDeployment.
+	visitSetDeployment(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by GISGrammarParser#deploymentProperty.
+	visitDeploymentProperty(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
 	// Visit a parse tree produced by GISGrammarParser#property.
 	visitProperty(ctx) {
 	  return this.visitChildren(ctx);

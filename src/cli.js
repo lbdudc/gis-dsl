@@ -9,6 +9,12 @@ const usage = "Usage: gisdsl input output";
 
 const cli = meow(usage, {
   importMeta: import.meta,
+  flags: {
+    debug: {
+      type: "boolean",
+      default: false,
+    },
+  },
 });
 
 if (cli.input.length < 2) {
@@ -20,7 +26,7 @@ const input = fs.readFileSync(inputPath, {
   encoding: "utf-8",
 });
 
-const spec = gisdslParser(input);
+const spec = gisdslParser(input, cli.flags.debug);
 
 const outputPath = path.resolve(process.cwd(), cli.input.at(1));
 fs.writeFileSync(outputPath, JSON.stringify(spec, null, 2), "utf8");
