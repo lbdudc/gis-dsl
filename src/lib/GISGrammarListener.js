@@ -149,6 +149,24 @@ export default class GISGrammarListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
+	// Enter a parse tree produced by GISGrammarParser#setDeployment.
+	enterSetDeployment(ctx) {
+	}
+
+	// Exit a parse tree produced by GISGrammarParser#setDeployment.
+	exitSetDeployment(ctx) {
+	}
+
+
+	// Enter a parse tree produced by GISGrammarParser#deploymentProperty.
+	enterDeploymentProperty(ctx) {
+	}
+
+	// Exit a parse tree produced by GISGrammarParser#deploymentProperty.
+	exitDeploymentProperty(ctx) {
+	}
+
+
 	// Enter a parse tree produced by GISGrammarParser#property.
 	enterProperty(ctx) {
 	}

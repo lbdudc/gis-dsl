@@ -8,6 +8,7 @@ sentence
   : createStatement
   | useGIS
   | generateGIS
+  | setDeployment
 ;
 
 createStatement:
@@ -63,6 +64,14 @@ mapLayer: identifier (IS_BASE_LAYER_SYMBOL)? (HIDDEN_SYMBOL)?;
 useGIS: USE_SYMBOL GIS_SYMBOL identifier SCOL_SYMBOL;
 
 generateGIS: GENERATE_SYMBOL GIS_SYMBOL identifier SCOL_SYMBOL;
+
+setDeployment:
+  SET_SYMBOL DEPLOYMENT_SYMBOL OPAR_SYMBOL
+	  deploymentProperty (COMMA_SYMBOL deploymentProperty)*
+  CPAR_SYMBOL SCOL_SYMBOL
+;
+
+deploymentProperty: text text;
 
 property: propertyDefinition | relationshipDefinition;
 
@@ -173,6 +182,8 @@ IS_BASE_LAYER_SYMBOL: I S UNDERLINE_SYMBOL B A S E UNDERLINE_SYMBOL L A Y E R;
 HIDDEN_SYMBOL: H I D D E N;
 SORTABLE_SYMBOL: S O R T A B L E;
 MAP_SYMBOL: M A P;
+SET_SYMBOL: S E T;
+DEPLOYMENT_SYMBOL: D E P L O Y M E N T;
 
 ZERO_ONE_SYMBOL: '0..1';
 ONE_ONE_SYMBOL: '1..1';
