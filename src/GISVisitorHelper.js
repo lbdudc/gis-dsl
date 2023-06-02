@@ -81,6 +81,10 @@ function transformation(spec) {
     }
   };
 
+  if (spec.extra) {
+    newSpec.basicData.extra = spec.extra;
+  }
+
   return newSpec;
 }
 

@@ -103,6 +103,13 @@ class GIS {
     this.maps.push(map);
   }
 
+  addDeploymentProperty(key, value) {
+    if (!this.extra) {
+      this.extra = {};
+    }
+    this.extra[key] = value;
+  }
+
   toString() {
     return (
       `\nGIS(${this.name} in ${this.srid}) - ${this.entities.length} entities, ${this.relationships.length} relationships:\n\t` +

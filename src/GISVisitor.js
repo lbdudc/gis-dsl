@@ -288,6 +288,18 @@ class Visitor extends GISGrammarVisitor {
     this.log(`visitCreateSortableMap`);
     this.visitCreateMap(ctx.getChild(1), true);
   }
+
+  /* ****************** Deployment ************************ */
+
+  visitDeploymentProperty(ctx) {
+    this.log(`visitDeploymentProperty`);
+    this.store
+      .getCurrentProduct()
+      .addDeploymentProperty(
+        ctx.getChild(0).getText().slice(1, -1),
+        ctx.getChild(1).getText().slice(1, -1)
+      );
+  }
 }
 
 export default Visitor;
