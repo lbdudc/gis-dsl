@@ -1,6 +1,13 @@
 import GISGrammarVisitor from "./lib/GISGrammarVisitor.js";
 import GIS from "./spl/GIS.js";
-import { TileLayer, GeoJSONLayer, WMSStyle, WMSLayer, Map, GeoJSONLayerStyle } from "./spl/Map.js";
+import {
+  TileLayer,
+  GeoJSONLayer,
+  WMSStyle,
+  WMSLayer,
+  Map,
+  GeoJSONLayerStyle,
+} from "./spl/Map.js";
 import { transformation, getPropertyParams } from "./GISVisitorHelper.js";
 // import { generateProduct } from "./project-generator.js";
 
@@ -176,10 +183,21 @@ class Visitor extends GISGrammarVisitor {
     );
     this.store
       .getCurrentProduct()
-      .addStyle(new GeoJSONLayerStyle(id + "Style", style.fillColor, style.strokeColor, style.fillOpacity, style.strokeOpacity));
+      .addStyle(
+        new GeoJSONLayerStyle(
+          id + "Style",
+          style.fillColor,
+          style.strokeColor,
+          style.fillOpacity,
+          style.strokeOpacity
+        )
+      );
     this.store
       .getCurrentProduct()
-      .addLayer(id, new GeoJSONLayer(id, label, entityId, editable, id + "Style"));
+      .addLayer(
+        id,
+        new GeoJSONLayer(id, label, entityId, editable, id + "Style")
+      );
   }
 
   visitCreateWmsStyle(ctx) {
@@ -216,10 +234,8 @@ class Visitor extends GISGrammarVisitor {
         throw `ERROR: entity ${auxEntityName} required by layer ${id} does not exists!!`;
       }
 
-      styleName = aux.getChild(1).getText()
-      style = this.store
-        .getCurrentProduct()
-        .getStyle(styleName);
+      styleName = aux.getChild(1).getText();
+      style = this.store.getCurrentProduct().getStyle(styleName);
       if (!style) {
         throw `Style ${aux.getChild(1).getText()} does not exist!!!`;
       }

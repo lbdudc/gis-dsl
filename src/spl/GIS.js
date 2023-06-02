@@ -88,7 +88,7 @@ class GIS {
   }
 
   getStyle(id) {
-    return this.styles.find(s => s.getId() == id);
+    return this.styles.find((s) => s.getId() == id);
   }
 
   addStyle(style) {

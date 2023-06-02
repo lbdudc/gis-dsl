@@ -71,14 +71,14 @@ function transformation(spec) {
     data: {
       dataModel: {
         entities: spec.entities,
-        enums: []
+        enums: [],
       },
     },
     mapViewer: {
       maps: spec.maps,
       layers: spec.layers,
-      styles: spec.styles
-    }
+      styles: spec.styles,
+    },
   };
 
   if (spec.extra) {

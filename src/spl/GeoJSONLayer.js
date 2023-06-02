@@ -6,7 +6,7 @@ export default class GeoJSONLayer {
     this.entityName = entityId;
     this.editable = editable;
     this.defaultStyle = style;
-    this.availableStyles = [ style ];
+    this.availableStyles = [style];
   }
 
   getId() {

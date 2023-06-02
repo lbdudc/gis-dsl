@@ -17,14 +17,18 @@ class Map {
   }
 
   addLayer(layer, isBaseLayer = false, hidden = false) {
-    this.layers.push({ name: layer, baseLayer: isBaseLayer, selected: !hidden });
+    this.layers.push({
+      name: layer,
+      baseLayer: isBaseLayer,
+      selected: !hidden,
+    });
   }
 
   toString() {
     return (
-      `\n${this.sortable ? "Sortable" : ""}Map(${this.name} as ${this.label}) - ${
-        this.layers.length
-      } layers:\n\t` +
+      `\n${this.sortable ? "Sortable" : ""}Map(${this.name} as ${
+        this.label
+      }) - ${this.layers.length} layers:\n\t` +
       `${this.layers
         .map(
           (l) =>
