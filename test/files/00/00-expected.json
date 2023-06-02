@@ -205,111 +205,121 @@
       "enums": []
     }
   },
-  "mapViewer": [
-    {
-      "id": "streets",
-      "label": "Streets",
-      "sortable": false,
-      "layers": [
-        {
-          "layer": {
-            "id": "base",
-            "type": "TileLayer",
-            "label": "OpenStreetMap",
-            "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+  "mapViewer": {
+    "maps": [
+      {
+        "name": "streets",
+        "label": "Streets",
+        "sortable": false,
+        "layers": [
+          {
+            "name": "base",
+            "baseLayer": true,
+            "selected": true
           },
-          "isBaseLayer": true,
-          "hidden": false
-        },
-        {
-          "layer": {
-            "id": "streetLayer",
-            "type": "WMSLayer",
-            "label": "Streets",
-            "sublayers": [
-              {
-                "entityId": "Street",
-                "style": {
-                  "id": "streetLayerStyle",
-                  "sldPath": "/home/acortinas/sld/streets-sld.xml"
-                }
-              }
-            ]
+          {
+            "name": "streetLayer",
+            "baseLayer": false,
+            "selected": true
           },
-          "isBaseLayer": false,
-          "hidden": false
-        },
-        {
-          "layer": {
-            "id": "cityLayer",
-            "type": "WMSLayer",
-            "label": "City",
-            "sublayers": [
-              {
-                "entityId": "City",
-                "style": {
-                  "id": "cityLayerStyle",
-                  "sldPath": "/home/acortinas/sld/city-sld.xml"
-                }
-              }
-            ]
+          {
+            "name": "cityLayer",
+            "baseLayer": false,
+            "selected": false
+          }
+        ]
+      },
+      {
+        "name": "points",
+        "label": "Points of Interest",
+        "sortable": false,
+        "layers": [
+          {
+            "name": "base",
+            "baseLayer": true,
+            "selected": true
           },
-          "isBaseLayer": false,
-          "hidden": true
-        }
-      ]
+          {
+            "name": "pointsOfInterestLayer",
+            "baseLayer": false,
+            "selected": true
+          },
+          {
+            "name": "cityLayer",
+            "baseLayer": false,
+            "selected": false
+          }
+        ]
+      }
+    ],
+    "layers": {
+      "base": {
+        "name": "base",
+        "type": "tilelayer",
+        "label": "OpenStreetMap",
+        "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      },
+      "streetLayer": {
+        "name": "streetLayer",
+        "type": "wms",
+        "label": "Streets",
+        "list": "Street",
+        "layers": [
+          "Street"
+        ],
+        "availableStyles": [
+          "streetLayerStyle"
+        ],
+        "defaultStyles": "streetLayerStyle"
+      },
+      "pointsOfInterestLayer": {
+        "name": "pointsOfInterestLayer",
+        "type": "geojson",
+        "label": "Points of Interest",
+        "entityName": "PointOfInterest",
+        "editable": true,
+        "defaultStyle": "pointsOfInterestLayerStyle",
+        "availableStyles": [
+          "pointsOfInterestLayerStyle"
+        ]
+      },
+      "cityLayer": {
+        "name": "cityLayer",
+        "type": "wms",
+        "label": "City",
+        "list": "City",
+        "layers": [
+          "City"
+        ],
+        "availableStyles": [
+          "cityLayerStyle"
+        ],
+        "defaultStyles": "cityLayerStyle"
+      }
     },
-    {
-      "id": "points",
-      "label": "Points of Interest",
-      "sortable": false,
-      "layers": [
-        {
-          "layer": {
-            "id": "base",
-            "type": "TileLayer",
-            "label": "OpenStreetMap",
-            "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          },
-          "isBaseLayer": true,
-          "hidden": false
-        },
-        {
-          "layer": {
-            "id": "pointsOfInterestLayer",
-            "type": "GeoJSONLayer",
-            "label": "Points of Interest",
-            "entityId": "PointOfInterest",
-            "editable": true,
-            "style": {
-              "fillColor": "#243452",
-              "strokeColor": "#eeeee3",
-              "fillOpacity": "0.8",
-              "strokeOpacity": "0.9"
-            }
-          },
-          "isBaseLayer": false,
-          "hidden": false
-        },
-        {
-          "layer": {
-            "id": "cityLayer",
-            "type": "WMSLayer",
-            "label": "City",
-            "sublayers": [
-              {
-                "entityId": "City",
-                "style": {
-                  "id": "cityLayerStyle",
-                  "sldPath": "/home/acortinas/sld/city-sld.xml"
-                }
-              }
-            ]
-          },
-          "isBaseLayer": false,
-          "hidden": true
-        }
-      ]
-    }
-  ]
+    "styles": [
+      {
+        "name": "streetLayerStyle",
+        "type": "WMSLayerSLDStyle",
+        "cached": true,
+        "sldPath": "/home/acortinas/sld/streets-sld.xml",
+        "sld": "@include:/home/acortinas/sld/streets-sld.xml"
+      },
+      {
+        "name": "pointsOfInterestLayerStyle",
+        "type": "GeoJSONLayerStyle",
+        "fillColor": "#243452",
+        "strokeColor": "#eeeee3",
+        "fillOpacity": "0.8",
+        "strokeOpacity": "0.9"
+      },
+      {
+        "name": "cityLayerStyle",
+        "type": "WMSLayerSLDStyle",
+        "cached": true,
+        "sldPath": "/home/acortinas/sld/city-sld.xml",
+        "sld": "@include:/home/acortinas/sld/city-sld.xml"
+      }
+    ]
+  }
 }
