@@ -64,6 +64,9 @@ function transformation(spec) {
       "MV_T_ZoomWindow",
       "T_GIS",
       "T_EntitiesInformation",
+      "D_Postgres",
+      "D_Geoserver",
+      "D_Nginx",
     ],
     basicData: {
       name: spec.name,

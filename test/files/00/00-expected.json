@@ -61,7 +61,10 @@
     "MV_T_M_Polygon",
     "MV_T_ZoomWindow",
     "T_GIS",
-    "T_EntitiesInformation"
+    "T_EntitiesInformation",
+    "D_Postgres",
+    "D_Geoserver",
+    "D_Nginx"
   ],
   "basicData": {
     "name": "city_example"
