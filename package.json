@@ -1,7 +1,7 @@
 {
   "author": "Álex Cortiñas",
   "bin": {
-    "gisdsl": "src/cli.js"
+    "gis-dsl": "src/cli.js"
   },
   "dependencies": {
     "antlr4": "^4.13.0",
@@ -26,7 +26,7 @@
     ]
   },
   "main": "src/index.js",
-  "name": "gisdsl",
+  "name": "gis-dsl",
   "scripts": {
     "build-grammar": "antlr -Dlanguage=JavaScript -lib grammar -o src/lib -visitor -Xexact-output-dir grammar/GISGrammar.g4",
     "lint": "npm-run-all lint_eslint lint_prettier",
