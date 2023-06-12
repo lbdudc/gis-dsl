@@ -15,8 +15,9 @@
     "MV_T_Pan",
     "MV_T_Zoom",
     "DM_GT_Sequence",
-    "MV_MapCenter",
-    "MV_MM_UniqueMapViewer",
+    "MV_MM_MultipleMapViewer",
+    "MV_MM_MMV_MapSelectorInMapViewer",
+    "MV_MM_MMV_MapSelectorInMenuElement",
     "MV_MS_GeoServer",
     "GUI_Forms",
     "GUI_F_Editable",
@@ -32,7 +33,6 @@
     "GUI_L_ViewListAsMap",
     "GUI_L_Export",
     "GUI_StaticPages",
-    "MV_MC_BBox",
     "MV_ContextInformation",
     "MV_CI_Scale",
     "MV_CI_Map",
@@ -60,6 +60,12 @@
     "MV_T_M_Line",
     "MV_T_M_Polygon",
     "MV_T_ZoomWindow",
+    "GUI_Menu",
+    "GUI_M_Position",
+    "GUI_M_Top",
+    "DM_DataInput",
+    "DM_DI_DataFeeding",
+    "DM_DI_DF_Shapefile",
     "T_GIS",
     "T_EntitiesInformation",
     "D_Postgres",
@@ -85,7 +91,7 @@
   },
   "mapViewer": {
     "maps": [],
-    "layers": {},
+    "layers": [],
     "styles": []
   }
 }

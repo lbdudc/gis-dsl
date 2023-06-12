@@ -15,8 +15,9 @@
     "MV_T_Pan",
     "MV_T_Zoom",
     "DM_GT_Sequence",
-    "MV_MapCenter",
-    "MV_MM_UniqueMapViewer",
+    "MV_MM_MultipleMapViewer",
+    "MV_MM_MMV_MapSelectorInMapViewer",
+    "MV_MM_MMV_MapSelectorInMenuElement",
     "MV_MS_GeoServer",
     "GUI_Forms",
     "GUI_F_Editable",
@@ -32,7 +33,6 @@
     "GUI_L_ViewListAsMap",
     "GUI_L_Export",
     "GUI_StaticPages",
-    "MV_MC_BBox",
     "MV_ContextInformation",
     "MV_CI_Scale",
     "MV_CI_Map",
@@ -60,6 +60,12 @@
     "MV_T_M_Line",
     "MV_T_M_Polygon",
     "MV_T_ZoomWindow",
+    "GUI_Menu",
+    "GUI_M_Position",
+    "GUI_M_Top",
+    "DM_DataInput",
+    "DM_DI_DataFeeding",
+    "DM_DI_DF_Shapefile",
     "T_GIS",
     "T_EntitiesInformation",
     "D_Postgres",
@@ -976,14 +982,14 @@
         ]
       }
     ],
-    "layers": {
-      "base": {
+    "layers": [
+      {
         "name": "base",
         "type": "tilelayer",
         "label": "OpenStreetMap",
         "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       },
-      "municipalityLayer": {
+      {
         "name": "municipalityLayer",
         "type": "wms",
         "label": "Municipalities",
@@ -996,7 +1002,7 @@
         ],
         "defaultStyles": "municipalityLayerStyle"
       },
-      "buildingLayer": {
+      {
         "name": "buildingLayer",
         "type": "wms",
         "label": "Buildings",
@@ -1009,7 +1015,7 @@
         ],
         "defaultStyles": "buildingLayerStyle"
       },
-      "roadBackgroundLayer": {
+      {
         "name": "roadBackgroundLayer",
         "type": "wms",
         "label": "Road Network",
@@ -1022,7 +1028,7 @@
         ],
         "defaultStyles": "roadBackgroundLayerStyle"
       },
-      "roadLayer": {
+      {
         "name": "roadLayer",
         "type": "wms",
         "label": "Road Network",
@@ -1035,7 +1041,7 @@
         ],
         "defaultStyles": "roadLayerStyle"
       },
-      "demographyLayer": {
+      {
         "name": "demographyLayer",
         "type": "wms",
         "label": "Population Entities",
@@ -1050,7 +1056,7 @@
         ],
         "defaultStyles": "populationSettlementLayerStyle"
       },
-      "supplyPipeLayer": {
+      {
         "name": "supplyPipeLayer",
         "type": "geojson",
         "label": "Supply Pipes",
@@ -1061,7 +1067,7 @@
           "supplyPipeLayerStyle"
         ]
       },
-      "collectionLayer": {
+      {
         "name": "collectionLayer",
         "type": "geojson",
         "label": "Collections",
@@ -1072,7 +1078,7 @@
           "collectionLayerStyle"
         ]
       },
-      "purificationLayer": {
+      {
         "name": "purificationLayer",
         "type": "geojson",
         "label": "Purification",
@@ -1083,7 +1089,7 @@
           "purificationLayerStyle"
         ]
       },
-      "storageLayer": {
+      {
         "name": "storageLayer",
         "type": "geojson",
         "label": "Storage",
@@ -1094,7 +1100,7 @@
           "storageLayerStyle"
         ]
       },
-      "pumpingLayer": {
+      {
         "name": "pumpingLayer",
         "type": "geojson",
         "label": "Pumping",
@@ -1105,7 +1111,7 @@
           "pumpingLayerStyle"
         ]
       },
-      "urbanPlanLayer": {
+      {
         "name": "urbanPlanLayer",
         "type": "geojson",
         "label": "Urban Zones",
@@ -1116,7 +1122,7 @@
           "urbanPlanLayerStyle"
         ]
       },
-      "hospitalLayer": {
+      {
         "name": "hospitalLayer",
         "type": "geojson",
         "label": "Hospitals",
@@ -1127,7 +1133,7 @@
           "hospitalLayerStyle"
         ]
       },
-      "medicalCenterLayer": {
+      {
         "name": "medicalCenterLayer",
         "type": "geojson",
         "label": "Medical Centers",
@@ -1138,7 +1144,7 @@
           "medicalCenterLayerStyle"
         ]
       },
-      "socialFacilityLayer": {
+      {
         "name": "socialFacilityLayer",
         "type": "geojson",
         "label": "Social Facilities",
@@ -1149,7 +1155,7 @@
           "socialFacilityLayerStyle"
         ]
       }
-    },
+    ],
     "styles": [
       {
         "name": "municipalityLayerStyle",
