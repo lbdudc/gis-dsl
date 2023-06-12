@@ -8,7 +8,7 @@ class GIS {
     this.entities = [];
     this.relationships = [];
     this.enums = [];
-    this.layers = {};
+    this.layers = [];
     this.styles = [];
     this.maps = [];
   }
@@ -65,8 +65,7 @@ class GIS {
       }
     });
 
-    Object.keys(this.layers).forEach((k) => {
-      const layer = this.layers[k];
+    this.layers.forEach((layer) => {
       if (layer.type == "GeoJSONLayer") {
         if (!this._entityExists(layer.entityId)) {
           throw `ERROR: entity ${layer.entityId} required by layer ${layer.id} does not exists!!`;
@@ -80,11 +79,11 @@ class GIS {
   }
 
   getLayer(id) {
-    return this.layers[id];
+    return this.layers.find((l) => l.getId() == id);
   }
 
-  addLayer(id, layer) {
-    this.layers[id] = layer;
+  addLayer(layer) {
+    this.layers.push(layer);
   }
 
   getStyle(id) {

@@ -138,7 +138,7 @@ class Visitor extends GISGrammarVisitor {
       url = ctx.getChild(7).getText().slice(1, -1);
     }
     this.log(`visitCreateTileLayer ${id} - ${label} (url: ${url})`);
-    this.store.getCurrentProduct().addLayer(id, new TileLayer(id, label, url));
+    this.store.getCurrentProduct().addLayer(new TileLayer(id, label, url));
   }
 
   visitCreateGeoJSONLayer(ctx) {
@@ -194,10 +194,7 @@ class Visitor extends GISGrammarVisitor {
       );
     this.store
       .getCurrentProduct()
-      .addLayer(
-        id,
-        new GeoJSONLayer(id, label, entityId, editable, id + "Style")
-      );
+      .addLayer(new GeoJSONLayer(id, label, entityId, editable, id + "Style"));
   }
 
   visitCreateWmsStyle(ctx) {
@@ -243,7 +240,7 @@ class Visitor extends GISGrammarVisitor {
     }
     this.log(`visitCreateWmsLayer ${id} - ${label}`);
 
-    this.store.getCurrentProduct().addLayer(id, layer);
+    this.store.getCurrentProduct().addLayer(layer);
   }
 
   visitCreateMap(ctx, sortable) {
