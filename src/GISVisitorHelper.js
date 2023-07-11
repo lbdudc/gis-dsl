@@ -70,9 +70,9 @@ function transformation(spec) {
       "DM_DI_DF_Shapefile",
       "T_GIS",
       "T_EntitiesInformation",
-      "D_Postgres",
-      "D_Geoserver",
-      "D_Nginx",
+      "D_C_Postgres",
+      "D_C_Geoserver",
+      "D_C_Nginx",
     ],
     basicData: {
       name: spec.name,
