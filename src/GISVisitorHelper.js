@@ -41,7 +41,6 @@ function transformation(spec) {
       "MV_CI_CenterCoordinates",
       "MV_CI_Dimensions",
       "MV_DetailOnClick",
-      "MV_GeoJSON",
       "MV_LayerManagement",
       "MV_LM_CenterViewOnLayer",
       "MV_LM_Order",
