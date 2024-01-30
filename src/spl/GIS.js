@@ -28,13 +28,13 @@ class GIS {
     const existingRelationship = this.getRelationship(
       source,
       target,
-      sourceOpts.label
+      sourceOpts.label,
     );
     if (existingRelationship) {
       existingRelationship.update(sourceOpts, targetOpts);
     } else {
       this.relationships.push(
-        new Relationship(source, target, sourceOpts, targetOpts)
+        new Relationship(source, target, sourceOpts, targetOpts),
       );
     }
   }
@@ -44,7 +44,7 @@ class GIS {
       (e) =>
         e.source == source &&
         e.target == target &&
-        e.sourceOpts.label == sourceLabel
+        e.sourceOpts.label == sourceLabel,
     );
   }
 
