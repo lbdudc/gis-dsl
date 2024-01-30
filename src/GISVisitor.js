@@ -56,7 +56,7 @@ class Visitor extends GISGrammarVisitor {
     this.store.setCurrentProduct(gisName);
     this.store.getCurrentProduct().validate();
     this.store.setLastGeneratedProduct(
-      transformation(this.store.getCurrentProduct())
+      transformation(this.store.getCurrentProduct()),
     );
   }
 
@@ -85,8 +85,8 @@ class Visitor extends GISGrammarVisitor {
         ctx.children
           .slice(2)
           .filter((s) => s.getSymbol)
-          .map((s) => s.getSymbol().text.toLowerCase())
-      )
+          .map((s) => s.getSymbol().text.toLowerCase()),
+      ),
     );
   }
 
@@ -179,7 +179,7 @@ class Visitor extends GISGrammarVisitor {
     style.fillOpacity = ctx.getChild(16 - offset).getText();
     style.strokeOpacity = ctx.getChild(19 - offset).getText();
     this.log(
-      `visitCreateGeoJSONLayer ${id} - ${label} (entityId: ${entityId} - ${style.fillColor}, ${style.strokeColor}, ${style.fillOpacity}, ${style.strokeOpacity})`
+      `visitCreateGeoJSONLayer ${id} - ${label} (entityId: ${entityId} - ${style.fillColor}, ${style.strokeColor}, ${style.fillOpacity}, ${style.strokeOpacity})`,
     );
     this.store
       .getCurrentProduct()
@@ -189,8 +189,8 @@ class Visitor extends GISGrammarVisitor {
           style.fillColor,
           style.strokeColor,
           style.fillOpacity,
-          style.strokeOpacity
-        )
+          style.strokeOpacity,
+        ),
       );
     this.store
       .getCurrentProduct()
@@ -265,7 +265,7 @@ class Visitor extends GISGrammarVisitor {
     this.log(
       `visitCreateMap ${id} - ${label} with ${layers.length} layers: ${layers
         .map((e) => e.id)
-        .join(", ")}`
+        .join(", ")}`,
     );
     const map = new Map(id, label, sortable);
     layers.forEach((l) => {
@@ -310,7 +310,7 @@ class Visitor extends GISGrammarVisitor {
       .getCurrentProduct()
       .addDeploymentProperty(
         ctx.getChild(0).getText().slice(1, -1),
-        ctx.getChild(1).getText().slice(1, -1)
+        ctx.getChild(1).getText().slice(1, -1),
       );
   }
 }

@@ -34,7 +34,7 @@ class Map {
           (l) =>
             (l.isBaseLayer ? "BL-" : "") +
             (l.hidden ? "H-" : "") +
-            l.layer.toString()
+            l.layer.toString(),
         )
         .join("\n\t")}`
     );

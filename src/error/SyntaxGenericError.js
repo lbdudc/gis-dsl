@@ -11,7 +11,7 @@ export default class SyntaxGenericError extends Error {
     }
 
     console.error(
-      `line ${this.payload.line}, col ${this.payload.column}: ${this.payload.message}`
+      `line ${this.payload.line}, col ${this.payload.column}: ${this.payload.message}`,
     );
     Error.captureStackTrace(this, SyntaxGenericError);
   }
