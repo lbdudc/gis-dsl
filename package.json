@@ -1,7 +1,11 @@
 {
   "name": "@lbdudc/gp-gis-dsl",
-  "version": "0.2.0",
-  "homepage": "https://gitlab.lbd.org.es/publico/gis-publisher/gis-dsl",
+  "version": "0.2.1",
+  "homepage": "https://github.com/lbdudc/gis-dsl#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lbdudc/gis-dsl.git"
+  },
   "description": "A library that parses a DSL instance and generates the spec for the web-based GIS SPL.",
   "bin": {
     "gis-dsl": "src/cli.js"

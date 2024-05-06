@@ -9,13 +9,13 @@ It parses a DSL instance and generates the spec for the web-based GIS SPL.
 ## Installation
 
 ```bash
-npm install
+npm install @lbdudc/gp-gis-dsl
 ```
 
 ## Usage
 
 ```js
-import gisdslParser from "gisdsl";
+import gisdslParser from "@lbdudc/gp-gis-dsl";
 
 const spec = gisdslParser(inputString);
 ```
