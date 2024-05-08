@@ -1,9 +1,9 @@
-import { readFeatSpecFile } from "./read-utils.js";
+import features from "./features.js";
 
 function transformation(spec) {
   _relationships(spec);
   const newSpec = {
-    features: readFeatSpecFile(),
+    features: features,
     basicData: {
       name: spec.name,
     },

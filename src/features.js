@@ -1,4 +1,4 @@
-[
+export default [
   "GEMA_SPL",
   "DataManagement",
   "GraphicalUserInterface",
@@ -68,5 +68,5 @@
   "T_EntitiesInformation",
   "D_C_Postgres",
   "D_C_Geoserver",
-  "D_C_Nginx"
-]
+  "D_C_Nginx",
+];
