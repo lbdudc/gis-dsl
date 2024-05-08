@@ -7,6 +7,7 @@ import {
   WMSLayer,
   Map,
   GeoJSONLayerStyle,
+  WMSStyleCustom,
 } from "./spl/Map.js";
 import { transformation, getPropertyParams } from "./GISVisitorHelper.js";
 // import { generateProduct } from "./project-generator.js";
@@ -198,10 +199,59 @@ class Visitor extends GISGrammarVisitor {
   }
 
   visitCreateWmsStyle(ctx) {
-    const id = ctx.getChild(2).getText();
-    const sld = ctx.getChild(5).getText().slice(1, -1);
-    this.log(`visitCreateWmsStyle ${id} with ${sld}`);
-    this.store.getCurrentProduct().addStyle(new WMSStyle(id, sld));
+    const descriptor = ctx
+      .getChild(4)
+      .getText()
+      .startsWith("styleLayerDescriptor");
+    if (descriptor) {
+      const id = ctx.getChild(2).getText();
+      const sld = ctx.getChild(5).getText().slice(1, -1);
+      this.log(`visitCreateWmsStyle ${id} with ${sld}`);
+      this.store.getCurrentProduct().addStyle(new WMSStyle(id, sld));
+    } else {
+      let style = {
+        geometryType: null,
+        fillColor: null,
+        strokeColor: null,
+        fillOpacity: null,
+        strokeOpacity: null,
+      };
+      const id = ctx.getChild(2).getText();
+      const props = ctx.getChild(4).getText();
+
+      props.split(",").forEach((field) => {
+        if (field.startsWith("geometryType")) {
+          style.geometryType = field.split("geometryType")[1];
+        } else if (field.startsWith("fillColor")) {
+          if (field.split("fillColor")[1] == "null") style.fillColor = null;
+          else style.fillColor = field.split("fillColor")[1]; // Remove the '#' symbol
+        } else if (field.startsWith("strokeColor")) {
+          if (field.split("strokeColor")[1] == "null") style.strokeColor = null;
+          else style.strokeColor = field.split("strokeColor")[1]; // Remove the '#' symbol
+        } else if (field.startsWith("fillOpacity")) {
+          style.fillOpacity = parseFloat(field.split("fillOpacity")[1]);
+        } else if (field.startsWith("strokeOpacity")) {
+          style.strokeOpacity = parseFloat(field.split("strokeOpacity")[1]);
+        }
+      });
+
+      this.log(
+        `visitCreateWmsStyle ${id} - ${style.geometryType}, ${style.fillColor}, ${style.strokeColor}, ${style.fillOpacity}, ${style.strokeOpacity}`,
+      );
+
+      this.store
+        .getCurrentProduct()
+        .addStyle(
+          new WMSStyleCustom(
+            id,
+            style.geometryType,
+            style.fillColor,
+            style.strokeColor,
+            style.fillOpacity,
+            style.strokeOpacity,
+          ),
+        );
+    }
   }
 
   visitCreateWmsLayer(ctx) {

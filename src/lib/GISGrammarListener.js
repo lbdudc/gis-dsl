@@ -1,4 +1,4 @@
-// Generated from grammar/GISGrammar.g4 by ANTLR 4.13.0
+// Generated from grammar/GISGrammar.g4 by ANTLR 4.13.1
 // jshint ignore: start
 import antlr4 from 'antlr4';
 
@@ -74,6 +74,15 @@ export default class GISGrammarListener extends antlr4.tree.ParseTreeListener {
 
 	// Exit a parse tree produced by GISGrammarParser#createGeoJSONLayer.
 	exitCreateGeoJSONLayer(ctx) {
+	}
+
+
+	// Enter a parse tree produced by GISGrammarParser#sldCustomBody.
+	enterSldCustomBody(ctx) {
+	}
+
+	// Exit a parse tree produced by GISGrammarParser#sldCustomBody.
+	exitSldCustomBody(ctx) {
 	}
 
 

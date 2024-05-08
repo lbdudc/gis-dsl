@@ -179,7 +179,11 @@ CREATE WMS STYLE roadBackgroundLayerStyle (
 );
 
 CREATE WMS STYLE roadLayerStyle (
-  styleLayerDescriptor "/home/acortinas/sld/road-sld.xml"
+  geometryType LINE,
+  fillColor #243452,
+  strokeColor #eeeee3,
+  fillOpacity 0.8,
+  strokeOpacity 0.9
 );
 
 CREATE WMS STYLE populationEntityLayerStyle (
