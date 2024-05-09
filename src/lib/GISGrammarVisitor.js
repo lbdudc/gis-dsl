@@ -186,5 +186,11 @@ export default class GISGrammarVisitor extends antlr4.tree.ParseTreeVisitor {
 	}
 
 
+	// Visit a parse tree produced by GISGrammarParser#intNumber.
+	visitIntNumber(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
 
 }

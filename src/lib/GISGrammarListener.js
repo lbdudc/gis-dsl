@@ -275,5 +275,14 @@ export default class GISGrammarListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
+	// Enter a parse tree produced by GISGrammarParser#intNumber.
+	enterIntNumber(ctx) {
+	}
+
+	// Exit a parse tree produced by GISGrammarParser#intNumber.
+	exitIntNumber(ctx) {
+	}
+
+
 
 }

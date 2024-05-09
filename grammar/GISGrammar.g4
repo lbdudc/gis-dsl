@@ -46,8 +46,8 @@ createGeoJSONLayer: GEOJSON_SYMBOL LAYER_SYMBOL identifier (AS_SYMBOL text)? OPA
 sldCustomBody: GEOMETRY_TYPE_SYMBOL TYPE COMMA_SYMBOL
     FILL_COLOR_SYMBOL? hexColor? COMMA_SYMBOL?
     STROKE_COLOR_SYMBOL? hexColor? COMMA_SYMBOL?
-    FILL_OPACITY_SYMBOL? floatNumber? COMMA_SYMBOL?
-    STROKE_OPACITY_SYMBOL? floatNumber?;
+    FILL_OPACITY_SYMBOL? (floatNumber | intNumber)? COMMA_SYMBOL?
+    STROKE_OPACITY_SYMBOL? (floatNumber | intNumber)?;
 
 createWmsStyle: WMS_SYMBOL STYLE_SYMBOL identifier OPAR_SYMBOL
     (SLD_SYMBOL text)? COMMA_SYMBOL?
@@ -113,6 +113,7 @@ text: QUOTED_TEXT;
 
 hexColor: HEX_COLOR;
 floatNumber: FLOAT_NUMBER;
+intNumber: INT_NUMBER;
 
 
 //-----------------------------------------------------------------------
