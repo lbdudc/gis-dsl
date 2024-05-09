@@ -1,4 +1,4 @@
-// Generated from grammar/GISGrammar.g4 by ANTLR 4.13.0
+// Generated from grammar/GISGrammar.g4 by ANTLR 4.13.1
 // jshint ignore: start
 import antlr4 from 'antlr4';
 
@@ -50,6 +50,12 @@ export default class GISGrammarVisitor extends antlr4.tree.ParseTreeVisitor {
 
 	// Visit a parse tree produced by GISGrammarParser#createGeoJSONLayer.
 	visitCreateGeoJSONLayer(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by GISGrammarParser#sldCustomBody.
+	visitSldCustomBody(ctx) {
 	  return this.visitChildren(ctx);
 	}
 
@@ -176,6 +182,12 @@ export default class GISGrammarVisitor extends antlr4.tree.ParseTreeVisitor {
 
 	// Visit a parse tree produced by GISGrammarParser#floatNumber.
 	visitFloatNumber(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by GISGrammarParser#intNumber.
+	visitIntNumber(ctx) {
 	  return this.visitChildren(ctx);
 	}
 

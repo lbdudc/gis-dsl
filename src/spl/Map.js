@@ -3,6 +3,7 @@ import WMSLayer from "./WMSLayer.js";
 import WMSStyle from "./WMSStyle.js";
 import GeoJSONLayer from "./GeoJSONLayer.js";
 import GeoJSONLayerStyle from "./GeoJSONLayerStyle.js";
+import WMSStyleCustom from "./WMSStyleCustom.js";
 
 class Map {
   constructor(id, label, sortable = false) {
@@ -41,4 +42,12 @@ class Map {
   }
 }
 
-export { GeoJSONLayer, TileLayer, WMSStyle, WMSLayer, Map, GeoJSONLayerStyle };
+export {
+  GeoJSONLayer,
+  TileLayer,
+  WMSStyle,
+  WMSStyleCustom,
+  WMSLayer,
+  Map,
+  GeoJSONLayerStyle,
+};
