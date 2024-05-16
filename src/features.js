@@ -3,7 +3,6 @@ export default [
   "Tools",
   "DM_SpatialDatabase",
   "DM_GenerationType",
-  "DM_DataServer",
   "MV_MapServer",
   "MV_Tools",
   "MV_MapManagement",
