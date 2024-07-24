@@ -41,6 +41,7 @@ export default [
   "MV_T_InformationMode",
   "MV_T_MeasureControl",
   "MV_T_ZoomWindow",
+  "MV_T_ViewMapAsList",
   "DM_DataInput",
   "DM_DI_DataFeeding",
   "DM_DI_DF_Shapefile",
