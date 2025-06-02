@@ -276,18 +276,21 @@ class Visitor extends GISGrammarVisitor {
       aux = ctx.getChild(i);
       auxEntityName = aux.getChild(0).getText();
       entity = this.store.getCurrentProduct().getEntity(auxEntityName);
-
-      if (!entity) {
-        throw `ERROR: entity ${auxEntityName} required by layer ${id} does not exists!!`;
-      }
-
       styleName = aux.getChild(1).getText();
       style = this.store.getCurrentProduct().getStyle(styleName);
-      if (!style) {
-        throw `Style ${aux.getChild(1).getText()} does not exist!!!`;
+
+      if (entity) {
+        layer.addSubLayer(entity.name, styleName);
+      } else {
+        // GeoTIFF case: no associated entity exists
+        const normalizedId = id
+          .replace(/Layer$/, "")
+          .replace(/^(\d+)([A-Z][a-z]+)/, "$1_$2")
+          .toLowerCase();
+        layer.addSubLayer(normalizedId, null);
       }
-      layer.addSubLayer(entity.name, styleName);
     }
+
     this.log(`visitCreateWmsLayer ${id} - ${label}`);
 
     this.store.getCurrentProduct().addLayer(layer);

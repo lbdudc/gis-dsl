@@ -16,8 +16,8 @@ export default class WMSLayer {
   addSubLayer(entityId, style) {
     this.list = entityId;
     this.layers.push(entityId);
+    if (style) this.availableStyles.push(style);
     this.defaultStyles = style;
-    this.availableStyles.push(style);
   }
 
   toString() {

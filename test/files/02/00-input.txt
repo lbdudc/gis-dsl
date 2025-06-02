@@ -1,0 +1,39 @@
+CREATE GIS HelloWorld USING 4326;
+USE GIS HelloWorld;
+
+CREATE TILE LAYER base AS "OpenStreetMap" (
+  url "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+);
+
+CREATE WMS STYLE 01CityLayerStyle (
+  geometryType Point,
+  fillColor #a8d925,
+  strokeColor #76981a,
+  fillOpacity 0.7,
+  strokeOpacity 1
+);
+
+CREATE WMS LAYER 01CityLayer AS "01_city" (
+  City 01CityLayerStyle
+);
+
+CREATE WMS STYLE 02ReliefLayerStyle (
+  geometryType Point,
+  fillColor #39b212,
+  strokeColor #287d0d,
+  fillOpacity 0.7,
+  strokeOpacity 1
+);
+
+CREATE WMS LAYER 02ReliefLayer AS "02_relief" (
+  Relief 02ReliefLayerStyle
+);
+
+CREATE MAP Geotiff AS "Geotiff" (
+  base IS_BASE_LAYER,
+  01CityLayer,
+  02ReliefLayer
+);
+
+GENERATE GIS HelloWorld;
+
