@@ -1,4 +1,4 @@
-// Generated from grammar/GISGrammar.g4 by ANTLR 4.13.1
+// Generated from GISGrammar.g4 by ANTLR 4.13.1
 // jshint ignore: start
 import antlr4 from 'antlr4';
 
@@ -110,6 +110,132 @@ export default class GISGrammarListener extends antlr4.tree.ParseTreeListener {
 
 	// Exit a parse tree produced by GISGrammarParser#wmsSubLayer.
 	exitWmsSubLayer(ctx) {
+	}
+
+
+	// Enter a parse tree produced by GISGrammarParser#wmsUrl.
+	enterWmsUrl(ctx) {
+	}
+
+	// Exit a parse tree produced by GISGrammarParser#wmsUrl.
+	exitWmsUrl(ctx) {
+	}
+
+
+	// Enter a parse tree produced by GISGrammarParser#wmsLayerName.
+	enterWmsLayerName(ctx) {
+	}
+
+	// Exit a parse tree produced by GISGrammarParser#wmsLayerName.
+	exitWmsLayerName(ctx) {
+	}
+
+
+	// Enter a parse tree produced by GISGrammarParser#wmsFormatName.
+	enterWmsFormatName(ctx) {
+	}
+
+	// Exit a parse tree produced by GISGrammarParser#wmsFormatName.
+	exitWmsFormatName(ctx) {
+	}
+
+
+	// Enter a parse tree produced by GISGrammarParser#wmsCrs.
+	enterWmsCrs(ctx) {
+	}
+
+	// Exit a parse tree produced by GISGrammarParser#wmsCrs.
+	exitWmsCrs(ctx) {
+	}
+
+
+	// Enter a parse tree produced by GISGrammarParser#wmsBboxCrs.
+	enterWmsBboxCrs(ctx) {
+	}
+
+	// Exit a parse tree produced by GISGrammarParser#wmsBboxCrs.
+	exitWmsBboxCrs(ctx) {
+	}
+
+
+	// Enter a parse tree produced by GISGrammarParser#wmsMinX.
+	enterWmsMinX(ctx) {
+	}
+
+	// Exit a parse tree produced by GISGrammarParser#wmsMinX.
+	exitWmsMinX(ctx) {
+	}
+
+
+	// Enter a parse tree produced by GISGrammarParser#wmsMinY.
+	enterWmsMinY(ctx) {
+	}
+
+	// Exit a parse tree produced by GISGrammarParser#wmsMinY.
+	exitWmsMinY(ctx) {
+	}
+
+
+	// Enter a parse tree produced by GISGrammarParser#wmsMaxX.
+	enterWmsMaxX(ctx) {
+	}
+
+	// Exit a parse tree produced by GISGrammarParser#wmsMaxX.
+	exitWmsMaxX(ctx) {
+	}
+
+
+	// Enter a parse tree produced by GISGrammarParser#wmsMaxY.
+	enterWmsMaxY(ctx) {
+	}
+
+	// Exit a parse tree produced by GISGrammarParser#wmsMaxY.
+	exitWmsMaxY(ctx) {
+	}
+
+
+	// Enter a parse tree produced by GISGrammarParser#wmsBboxGroup.
+	enterWmsBboxGroup(ctx) {
+	}
+
+	// Exit a parse tree produced by GISGrammarParser#wmsBboxGroup.
+	exitWmsBboxGroup(ctx) {
+	}
+
+
+	// Enter a parse tree produced by GISGrammarParser#wmsStyles.
+	enterWmsStyles(ctx) {
+	}
+
+	// Exit a parse tree produced by GISGrammarParser#wmsStyles.
+	exitWmsStyles(ctx) {
+	}
+
+
+	// Enter a parse tree produced by GISGrammarParser#wmsQueryable.
+	enterWmsQueryable(ctx) {
+	}
+
+	// Exit a parse tree produced by GISGrammarParser#wmsQueryable.
+	exitWmsQueryable(ctx) {
+	}
+
+
+	// Enter a parse tree produced by GISGrammarParser#wmsAttribution.
+	enterWmsAttribution(ctx) {
+	}
+
+	// Exit a parse tree produced by GISGrammarParser#wmsAttribution.
+	exitWmsAttribution(ctx) {
+	}
+
+
+	// Enter a parse tree produced by GISGrammarParser#wmsVersion.
+	enterWmsVersion(ctx) {
+	}
+
+	// Exit a parse tree produced by GISGrammarParser#wmsVersion.
+	exitWmsVersion(ctx) {
 	}
 
 

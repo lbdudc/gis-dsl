@@ -8,6 +8,7 @@ import {
   Map,
   GeoJSONLayerStyle,
   WMSStyleCustom,
+  WMSLayerExtended,
 } from "./spl/Map.js";
 import { transformation, getPropertyParams } from "./GISVisitorHelper.js";
 // import { generateProduct } from "./project-generator.js";
@@ -256,38 +257,103 @@ class Visitor extends GISGrammarVisitor {
 
   visitCreateWmsLayer(ctx) {
     const id = ctx.getChild(2).getText();
-    let label = id,
-      from = 4,
-      i,
-      aux,
-      entity,
-      auxEntityName,
-      style,
-      styleName;
-    if (ctx.getChild(3).getText() != ")") {
-      // tiene label
-      label = ctx.getChild(4).getText().slice(1, -1);
-      from = 6;
-    }
+    let layer = null;
+    let label = id;
 
-    const layer = new WMSLayer(id, label);
+    const isWmsService = ctx
+      .getChild(6)
+      .getText()
+      .toLowerCase()
+      .startsWith("urlwms");
 
-    for (i = from; i < ctx.getChildCount() - 2; i = i + 2) {
-      aux = ctx.getChild(i);
-      auxEntityName = aux.getChild(0).getText();
-      entity = this.store.getCurrentProduct().getEntity(auxEntityName);
-      styleName = aux.getChild(1).getText();
-      style = this.store.getCurrentProduct().getStyle(styleName);
+    if (isWmsService) {
+      const sub = ctx.wmsSubLayer(0);
 
-      if (entity) {
-        layer.addSubLayer(entity.name, styleName);
-      } else {
-        // GeoTIFF case: no associated entity exists
-        const normalizedId = id
-          .replace(/Layer$/, "")
-          .replace(/^(\d+)([A-Z][a-z]+)/, "$1_$2")
-          .toLowerCase();
-        layer.addSubLayer(normalizedId, null);
+      const serviceUrl = sub.wmsUrl().text().getText().replace(/"/g, "");
+      const layerName = sub.wmsLayerName()?.text().getText().replace(/"/g, "");
+      const format = sub.wmsFormatName()?.text().getText().replace(/"/g, "");
+      const crs = sub.wmsCrs()?.text().getText().replace(/"/g, "");
+      const styles = sub.wmsStyles()
+        ? sub
+            .wmsStyles()
+            .text()
+            .getText()
+            .replace(/"/g, "")
+            .split(",")
+            .map((s) => s.trim())
+        : [];
+      const queryable = sub.wmsQueryable()
+        ? sub
+            .wmsQueryable()
+            .text()
+            .getText()
+            .replace(/"/g, "")
+            .toLowerCase() === "true"
+        : false;
+      const version = sub.wmsVersion()?.text().getText().replace(/"/g, "");
+      const attribution = sub
+        .wmsAttribution()
+        ?.text()
+        .getText()
+        .replace(/"/g, "");
+
+      let bbox = null;
+      const bboxNode = sub.wmsBboxGroup();
+      if (bboxNode) {
+        bbox = {
+          crs: bboxNode.wmsBboxCrs().text().getText().replace(/"/g, ""),
+          minx: parseFloat(bboxNode.wmsMinX().floatNumber().getText()),
+          miny: parseFloat(bboxNode.wmsMinY().floatNumber().getText()),
+          maxx: parseFloat(bboxNode.wmsMaxX().floatNumber().getText()),
+          maxy: parseFloat(bboxNode.wmsMaxY().floatNumber().getText()),
+        };
+      }
+
+      layer = new WMSLayerExtended({
+        id,
+        label,
+        serviceUrl,
+        layerName,
+        format,
+        crs,
+        bbox,
+        styles,
+        queryable,
+        attribution,
+        version,
+      });
+    } else {
+      let from = 4,
+        i,
+        aux,
+        entity,
+        auxEntityName,
+        style,
+        styleName;
+      if (ctx.getChild(3).getText() != ")") {
+        // tiene label
+        label = ctx.getChild(4).getText().slice(1, -1);
+        from = 6;
+      }
+      layer = new WMSLayer(id, label);
+
+      for (i = from; i < ctx.getChildCount() - 2; i = i + 2) {
+        aux = ctx.getChild(i);
+        auxEntityName = aux.getChild(0).getText();
+        entity = this.store.getCurrentProduct().getEntity(auxEntityName);
+        styleName = aux.getChild(1).getText();
+        style = this.store.getCurrentProduct().getStyle(styleName);
+
+        if (entity) {
+          layer.addSubLayer(entity.name, styleName);
+        } else {
+          // GeoTIFF case: no associated entity exists
+          const normalizedId = id
+            .replace(/Layer$/, "")
+            .replace(/^(\d+)([A-Z][a-z]+)/, "$1_$2")
+            .toLowerCase();
+          layer.addSubLayer(normalizedId, null);
+        }
       }
     }
 

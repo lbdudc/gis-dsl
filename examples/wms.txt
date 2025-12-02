@@ -1,0 +1,23 @@
+CREATE GIS HelloWorld USING 4326;
+USE GIS HelloWorld;
+
+CREATE TILE LAYER base AS "OpenStreetMap" (
+  url "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+);
+
+CREATE WMS LAYER red_de_control_quimico_de_vigilancia_general AS "red_de_control_quimico_de_vigilancia_general" (
+  urlWms "https://wms.mapama.gob.es/sig/Agua/CAS_Vigilancia",
+  layerName "EF.EnvironmentalMonitoringNetworks",
+  format "image/png",
+  crs "CRS:84",
+  style "Agua_casub_quimico_vigilancia",
+  queryable "true",
+  bboxCRS "CRS:84",
+  minX -10.46691747950002,
+  minY 34.4328529235,
+  maxX 5.62803474250002,
+  maxY 44.5738228055,
+  version "1.3.0"
+);
+
+GENERATE GIS HelloWorld;
