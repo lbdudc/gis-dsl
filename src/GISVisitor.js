@@ -8,7 +8,7 @@ import {
   Map,
   GeoJSONLayerStyle,
   WMSStyleCustom,
-  WMSLayerExtended,
+  WMSServiceLayer,
 } from "./spl/Map.js";
 import { transformation, getPropertyParams } from "./GISVisitorHelper.js";
 // import { generateProduct } from "./project-generator.js";
@@ -257,7 +257,6 @@ class Visitor extends GISGrammarVisitor {
 
   visitCreateWmsLayer(ctx) {
     const id = ctx.getChild(2).getText();
-    let layer = null;
     let label = id;
 
     const isWmsService = ctx
@@ -266,100 +265,100 @@ class Visitor extends GISGrammarVisitor {
       .toLowerCase()
       .startsWith("urlwms");
 
-    if (isWmsService) {
-      const sub = ctx.wmsSubLayer(0);
-
-      const serviceUrl = sub.wmsUrl().text().getText().replace(/"/g, "");
-      const layerName = sub.wmsLayerName()?.text().getText().replace(/"/g, "");
-      const format = sub.wmsFormatName()?.text().getText().replace(/"/g, "");
-      const crs = sub.wmsCrs()?.text().getText().replace(/"/g, "");
-      const styles = sub.wmsStyles()
-        ? sub
-            .wmsStyles()
-            .text()
-            .getText()
-            .replace(/"/g, "")
-            .split(",")
-            .map((s) => s.trim())
-        : [];
-      const queryable = sub.wmsQueryable()
-        ? sub
-            .wmsQueryable()
-            .text()
-            .getText()
-            .replace(/"/g, "")
-            .toLowerCase() === "true"
-        : false;
-      const version = sub.wmsVersion()?.text().getText().replace(/"/g, "");
-      const attribution = sub
-        .wmsAttribution()
-        ?.text()
-        .getText()
-        .replace(/"/g, "");
-
-      let bbox = null;
-      const bboxNode = sub.wmsBboxGroup();
-      if (bboxNode) {
-        bbox = {
-          crs: bboxNode.wmsBboxCrs().text().getText().replace(/"/g, ""),
-          minx: parseFloat(bboxNode.wmsMinX().floatNumber().getText()),
-          miny: parseFloat(bboxNode.wmsMinY().floatNumber().getText()),
-          maxx: parseFloat(bboxNode.wmsMaxX().floatNumber().getText()),
-          maxy: parseFloat(bboxNode.wmsMaxY().floatNumber().getText()),
-        };
-      }
-
-      layer = new WMSLayerExtended({
-        id,
-        label,
-        serviceUrl,
-        layerName,
-        format,
-        crs,
-        bbox,
-        styles,
-        queryable,
-        attribution,
-        version,
-      });
-    } else {
-      let from = 4,
-        i,
-        aux,
-        entity,
-        auxEntityName,
-        style,
-        styleName;
-      if (ctx.getChild(3).getText() != ")") {
-        // tiene label
-        label = ctx.getChild(4).getText().slice(1, -1);
-        from = 6;
-      }
-      layer = new WMSLayer(id, label);
-
-      for (i = from; i < ctx.getChildCount() - 2; i = i + 2) {
-        aux = ctx.getChild(i);
-        auxEntityName = aux.getChild(0).getText();
-        entity = this.store.getCurrentProduct().getEntity(auxEntityName);
-        styleName = aux.getChild(1).getText();
-        style = this.store.getCurrentProduct().getStyle(styleName);
-
-        if (entity) {
-          layer.addSubLayer(entity.name, styleName);
-        } else {
-          // GeoTIFF case: no associated entity exists
-          const normalizedId = id
-            .replace(/Layer$/, "")
-            .replace(/^(\d+)([A-Z][a-z]+)/, "$1_$2")
-            .toLowerCase();
-          layer.addSubLayer(normalizedId, null);
-        }
-      }
-    }
+    const layer = isWmsService
+      ? this._createWmsServiceLayer(ctx, id, label)
+      : this._createStandardLayer(ctx, id, label);
 
     this.log(`visitCreateWmsLayer ${id} - ${label}`);
 
     this.store.getCurrentProduct().addLayer(layer);
+  }
+
+  _getCleanText = (node) => node?.text()?.getText().replace(/"/g, "") || null;
+
+  _createWmsServiceLayer(ctx, id, label) {
+    const sub = ctx.wmsSubLayer(0);
+    const clean = this._getCleanText;
+
+    const url = clean(sub.wmsUrl());
+    const layerName = clean(sub.wmsLayerName());
+    const format = clean(sub.wmsFormatName());
+    const crs = clean(sub.wmsCrs());
+    const version = clean(sub.wmsVersion());
+    const attribution = clean(sub.wmsAttribution());
+
+    const styles = sub.wmsStyles()
+      ? clean(sub.wmsStyles())
+          .split(",")
+          .map((s) => s.trim())
+      : [];
+
+    const queryable = sub.wmsQueryable()
+      ? clean(sub.wmsQueryable()).toLowerCase() === "true"
+      : false;
+
+    let bbox = null;
+    const bboxNode = sub.wmsBboxGroup();
+    if (bboxNode) {
+      bbox = {
+        crs: clean(bboxNode.wmsBboxCrs()),
+        minx: parseFloat(bboxNode.wmsMinX().floatNumber().getText()),
+        miny: parseFloat(bboxNode.wmsMinY().floatNumber().getText()),
+        maxx: parseFloat(bboxNode.wmsMaxX().floatNumber().getText()),
+        maxy: parseFloat(bboxNode.wmsMaxY().floatNumber().getText()),
+      };
+    }
+
+    return new WMSServiceLayer({
+      id,
+      label,
+      url,
+      layerName,
+      format,
+      crs,
+      bbox,
+      styles,
+      queryable,
+      attribution,
+      version,
+    });
+  }
+
+  _createStandardLayer(ctx, id, label) {
+    let from = 4,
+      i,
+      aux,
+      entity,
+      auxEntityName,
+      style,
+      styleName;
+    if (ctx.getChild(3).getText() != ")") {
+      // tiene label
+      label = ctx.getChild(4).getText().slice(1, -1);
+      from = 6;
+    }
+    const layer = new WMSLayer(id, label);
+
+    for (i = from; i < ctx.getChildCount() - 2; i += 2) {
+      aux = ctx.getChild(i);
+      auxEntityName = aux.getChild(0).getText();
+      entity = this.store.getCurrentProduct().getEntity(auxEntityName);
+      styleName = aux.getChild(1).getText();
+      style = this.store.getCurrentProduct().getStyle(styleName);
+
+      if (entity) {
+        layer.addSubLayer(entity.name, styleName);
+      } else {
+        // GeoTIFF: no entity
+        const normalizedId = id
+          .replace(/Layer$/, "")
+          .replace(/^(\d+)([A-Z][a-z]+)/, "$1_$2")
+          .toLowerCase();
+        layer.addSubLayer(normalizedId, null);
+      }
+    }
+
+    return layer;
   }
 
   visitCreateMap(ctx, sortable) {

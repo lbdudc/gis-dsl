@@ -82,7 +82,8 @@
           "Agua_casub_quimico_vigilancia"
         ],
         "defaultStyles": "Agua_casub_quimico_vigilancia",
-        "serviceUrl": "https://wms.mapama.gob.es/sig/Agua/CAS_Vigilancia",
+        "external": true,
+        "url": "https://wms.mapama.gob.es/sig/Agua/CAS_Vigilancia",
         "layerName": "EF.EnvironmentalMonitoringNetworks",
         "format": "image/png",
         "crs": "CRS:84",

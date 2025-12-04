@@ -1,10 +1,10 @@
 import WMSLayer from "./WMSLayer.js";
 
-export default class WMSLayerExtended extends WMSLayer {
+export default class WMSServiceLayer extends WMSLayer {
   constructor({
     id,
     label,
-    serviceUrl,
+    url,
     layerName,
     format,
     crs,
@@ -17,8 +17,9 @@ export default class WMSLayerExtended extends WMSLayer {
     super(id, label);
 
     this.type = "wms";
+    this.external = true;
 
-    this.serviceUrl = serviceUrl;
+    this.url = url;
     this.layerName = layerName;
     this.format = format;
     this.crs = crs;
