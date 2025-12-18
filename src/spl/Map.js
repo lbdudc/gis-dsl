@@ -4,6 +4,7 @@ import WMSStyle from "./WMSStyle.js";
 import GeoJSONLayer from "./GeoJSONLayer.js";
 import GeoJSONLayerStyle from "./GeoJSONLayerStyle.js";
 import WMSStyleCustom from "./WMSStyleCustom.js";
+import WMSServiceLayer from "./WMSServiceLayer.js";
 
 class Map {
   constructor(id, label, sortable = false) {
@@ -50,4 +51,5 @@ export {
   WMSLayer,
   Map,
   GeoJSONLayerStyle,
+  WMSServiceLayer,
 };

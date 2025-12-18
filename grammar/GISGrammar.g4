@@ -58,7 +58,66 @@ createWmsLayer: WMS_SYMBOL LAYER_SYMBOL identifier (AS_SYMBOL text)? OPAR_SYMBOL
     wmsSubLayer (COMMA_SYMBOL wmsSubLayer)*
   CPAR_SYMBOL SCOL_SYMBOL;
 
-wmsSubLayer: identifier identifier;
+wmsSubLayer:
+      identifier identifier              
+    | (wmsUrl wmsLayerName wmsFormatName? wmsCrs? wmsStyles? wmsQueryable? wmsAttribution? wmsBboxGroup? wmsVersion?)
+;
+
+wmsUrl: 
+  URL_WMS_SYMBOL text
+;
+
+wmsLayerName: 
+  COMMA_SYMBOL LAYERNAME_SYMBOL text
+;
+
+wmsFormatName:
+  COMMA_SYMBOL FORMAT_SYMBOL text
+;
+
+wmsCrs:
+  COMMA_SYMBOL CRS_SYMBOL text
+;
+
+wmsBboxCrs:
+  COMMA_SYMBOL BBOX_CRS_SYMBOL text
+;
+
+wmsMinX:
+  COMMA_SYMBOL MINX_SYMBOL floatNumber
+;
+
+wmsMinY:
+  COMMA_SYMBOL MINY_SYMBOL floatNumber
+;
+
+wmsMaxX:
+  COMMA_SYMBOL MAXX_SYMBOL floatNumber
+;
+
+wmsMaxY:
+  COMMA_SYMBOL MAXY_SYMBOL floatNumber
+;
+
+wmsBboxGroup:
+  wmsBboxCrs wmsMinX wmsMinY wmsMaxX wmsMaxY
+;
+
+wmsStyles:
+  COMMA_SYMBOL STYLE_SYMBOL text
+;
+
+wmsQueryable:
+  COMMA_SYMBOL QUERYABLE_SYMBOL text
+;
+
+wmsAttribution:
+  COMMA_SYMBOL ATTRIBUTION_SYMBOL text
+;
+
+wmsVersion:
+  COMMA_SYMBOL VERSION_SYMBOL text
+;
 
 createSortableMap: SORTABLE_SYMBOL createMap;
 
@@ -159,6 +218,7 @@ fragment LETTER_WITHOUT_FLOAT_PART: [a-df-zA-DF-Z_$\u0080-\uffff];
 
 fragment UNDERLINE_SYMBOL: '_';
 fragment QUOTE_SYMBOL: '"';
+fragment MINUS_SYMBOL: '-';
 
 CREATE_SYMBOL: C R E A T E;
 GIS_SYMBOL: G I S;
@@ -194,6 +254,19 @@ MAP_SYMBOL: M A P;
 SET_SYMBOL: S E T;
 DEPLOYMENT_SYMBOL: D E P L O Y M E N T;
 
+URL_WMS_SYMBOL: U R L W M S;
+LAYERNAME_SYMBOL: L A Y E R N A M E;
+FORMAT_SYMBOL: F O R M A T;
+CRS_SYMBOL: C R S;
+BBOX_CRS_SYMBOL: B B O X C R S;
+MINX_SYMBOL: M I N X;
+MINY_SYMBOL: M I N Y;
+MAXX_SYMBOL: M A X X;
+MAXY_SYMBOL: M A X Y;
+QUERYABLE_SYMBOL: Q U E R Y A B L E;
+ATTRIBUTION_SYMBOL: A T T R I B U T I O N;
+VERSION_SYMBOL: V E R S I O N;
+
 ZERO_ONE_SYMBOL: '0..1';
 ONE_ONE_SYMBOL: '1..1';
 ZERO_MANY_SYMBOL: '0..*';
@@ -224,7 +297,7 @@ SCOL_SYMBOL  : ';';
 
 HEX_COLOR: POUND_SYMBOL HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT;
 INT_NUMBER: DIGITS;
-FLOAT_NUMBER: (DIGITS? DOT_SYMBOL)? DIGITS;
+FLOAT_NUMBER: MINUS_SYMBOL? (DIGITS? DOT_SYMBOL)? DIGITS;
 
 COMMENT: '//' ~[\r\n]* -> skip;
 //SPACE: [ \t]+ -> skip;

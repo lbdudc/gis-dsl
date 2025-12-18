@@ -1,0 +1,109 @@
+{
+  "features": [
+    "MapViewer",
+    "Tools",
+    "DM_SpatialDatabase",
+    "DM_GenerationType",
+    "MV_MapServer",
+    "MV_Tools",
+    "MV_MapManagement",
+    "DM_SD_PostGIS",
+    "DM_GT_Sequence",
+    "MV_MM_MultipleMapViewer",
+    "MV_MM_MMV_MapSelectorInMapViewer",
+    "MV_MM_MMV_MapSelectorInMenuElement",
+    "MV_MS_GeoServer",
+    "GUI_Lists",
+    "GUI_L_FormLink",
+    "GUI_L_F_BasicSearch",
+    "GUI_L_Filterable",
+    "GUI_L_Sortable",
+    "GUI_L_LocateInMap",
+    "GUI_L_ViewListAsMap",
+    "MV_ContextInformation",
+    "MV_CI_Scale",
+    "MV_CI_Map",
+    "MV_CI_CenterCoordinates",
+    "MV_CI_Dimensions",
+    "MV_DetailOnClick",
+    "MV_LayerManagement",
+    "MV_LM_CenterViewOnLayer",
+    "MV_LM_Order",
+    "MV_LM_Opacity",
+    "MV_LM_HideLayer",
+    "MV_LM_Style",
+    "MV_LM_ExternalLayer",
+    "MV_LM_StylePreview",
+    "MV_T_E_Type",
+    "MV_T_E_F_URL",
+    "MV_T_E_F_PDF",
+    "MV_T_E_SetScale",
+    "MV_T_E_ShowLegend",
+    "MV_T_InformationMode",
+    "MV_T_MeasureControl",
+    "MV_T_ZoomWindow",
+    "MV_T_ViewMapAsList",
+    "DM_DataInput",
+    "DM_DI_DataFeeding",
+    "DM_DI_DF_Shapefile",
+    "T_GIS",
+    "T_EntitiesInformation",
+    "D_C_Postgres",
+    "D_C_Geoserver",
+    "D_C_Nginx"
+  ],
+  "basicData": {
+    "name": "HelloWorld"
+  },
+  "data": {
+    "dataModel": {
+      "entities": [],
+      "enums": []
+    }
+  },
+  "mapViewer": {
+    "maps": [],
+    "layers": [
+      {
+        "name": "base",
+        "type": "tilelayer",
+        "label": "OpenStreetMap",
+        "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      },
+      {
+        "name": "red_de_control_quimico_de_vigilancia_general",
+        "type": "wms",
+        "label": "red_de_control_quimico_de_vigilancia_general",
+        "list": null,
+        "layers": [
+          "EF.EnvironmentalMonitoringNetworks"
+        ],
+        "availableStyles": [
+          "Agua_casub_quimico_vigilancia"
+        ],
+        "defaultStyles": "Agua_casub_quimico_vigilancia",
+        "external": true,
+        "url": "https://wms.mapama.gob.es/sig/Agua/CAS_Vigilancia",
+        "layerName": "EF.EnvironmentalMonitoringNetworks",
+        "format": "image/png",
+        "crs": "CRS:84",
+        "bbox": {
+          "crs": "CRS:84",
+          "minx": -10.46691747950002,
+          "miny": 34.4328529235,
+          "maxx": 5.62803474250002,
+          "maxy": 44.5738228055
+        },
+        "version": "1.3.0",
+        "styles": [
+          "Agua_casub_quimico_vigilancia"
+        ],
+        "queryable": true,
+        "attribution": null,
+        "visible": true,
+        "opacity": 1
+      }
+    ],
+    "styles": []
+  }
+}

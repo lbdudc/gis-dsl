@@ -78,6 +78,90 @@ export default class GISGrammarVisitor extends antlr4.tree.ParseTreeVisitor {
 	}
 
 
+	// Visit a parse tree produced by GISGrammarParser#wmsUrl.
+	visitWmsUrl(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by GISGrammarParser#wmsLayerName.
+	visitWmsLayerName(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by GISGrammarParser#wmsFormatName.
+	visitWmsFormatName(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by GISGrammarParser#wmsCrs.
+	visitWmsCrs(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by GISGrammarParser#wmsBboxCrs.
+	visitWmsBboxCrs(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by GISGrammarParser#wmsMinX.
+	visitWmsMinX(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by GISGrammarParser#wmsMinY.
+	visitWmsMinY(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by GISGrammarParser#wmsMaxX.
+	visitWmsMaxX(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by GISGrammarParser#wmsMaxY.
+	visitWmsMaxY(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by GISGrammarParser#wmsBboxGroup.
+	visitWmsBboxGroup(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by GISGrammarParser#wmsStyles.
+	visitWmsStyles(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by GISGrammarParser#wmsQueryable.
+	visitWmsQueryable(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by GISGrammarParser#wmsAttribution.
+	visitWmsAttribution(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by GISGrammarParser#wmsVersion.
+	visitWmsVersion(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
 	// Visit a parse tree produced by GISGrammarParser#createSortableMap.
 	visitCreateSortableMap(ctx) {
 	  return this.visitChildren(ctx);

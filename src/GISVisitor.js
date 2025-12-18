@@ -8,6 +8,7 @@ import {
   Map,
   GeoJSONLayerStyle,
   WMSStyleCustom,
+  WMSServiceLayer,
 } from "./spl/Map.js";
 import { transformation, getPropertyParams } from "./GISVisitorHelper.js";
 // import { generateProduct } from "./project-generator.js";
@@ -256,8 +257,75 @@ class Visitor extends GISGrammarVisitor {
 
   visitCreateWmsLayer(ctx) {
     const id = ctx.getChild(2).getText();
-    let label = id,
-      from = 4,
+    let label = id;
+
+    const isWmsService = ctx
+      .getChild(6)
+      .getText()
+      .toLowerCase()
+      .startsWith("urlwms");
+
+    const layer = isWmsService
+      ? this._createWmsServiceLayer(ctx, id, label)
+      : this._createStandardLayer(ctx, id, label);
+
+    this.log(`visitCreateWmsLayer ${id} - ${label}`);
+
+    this.store.getCurrentProduct().addLayer(layer);
+  }
+
+  _getCleanText = (node) => node?.text()?.getText().replace(/"/g, "") || null;
+
+  _createWmsServiceLayer(ctx, id, label) {
+    const sub = ctx.wmsSubLayer(0);
+    const clean = this._getCleanText;
+
+    const url = clean(sub.wmsUrl());
+    const layerName = clean(sub.wmsLayerName());
+    const format = clean(sub.wmsFormatName());
+    const crs = clean(sub.wmsCrs());
+    const version = clean(sub.wmsVersion());
+    const attribution = clean(sub.wmsAttribution());
+
+    const styles = sub.wmsStyles()
+      ? clean(sub.wmsStyles())
+          .split(",")
+          .map((s) => s.trim())
+      : [];
+
+    const queryable = sub.wmsQueryable()
+      ? clean(sub.wmsQueryable()).toLowerCase() === "true"
+      : false;
+
+    let bbox = null;
+    const bboxNode = sub.wmsBboxGroup();
+    if (bboxNode) {
+      bbox = {
+        crs: clean(bboxNode.wmsBboxCrs()),
+        minx: parseFloat(bboxNode.wmsMinX().floatNumber().getText()),
+        miny: parseFloat(bboxNode.wmsMinY().floatNumber().getText()),
+        maxx: parseFloat(bboxNode.wmsMaxX().floatNumber().getText()),
+        maxy: parseFloat(bboxNode.wmsMaxY().floatNumber().getText()),
+      };
+    }
+
+    return new WMSServiceLayer({
+      id,
+      label,
+      url,
+      layerName,
+      format,
+      crs,
+      bbox,
+      styles,
+      queryable,
+      attribution,
+      version,
+    });
+  }
+
+  _createStandardLayer(ctx, id, label) {
+    let from = 4,
       i,
       aux,
       entity,
@@ -269,10 +337,9 @@ class Visitor extends GISGrammarVisitor {
       label = ctx.getChild(4).getText().slice(1, -1);
       from = 6;
     }
-
     const layer = new WMSLayer(id, label);
 
-    for (i = from; i < ctx.getChildCount() - 2; i = i + 2) {
+    for (i = from; i < ctx.getChildCount() - 2; i += 2) {
       aux = ctx.getChild(i);
       auxEntityName = aux.getChild(0).getText();
       entity = this.store.getCurrentProduct().getEntity(auxEntityName);
@@ -282,7 +349,7 @@ class Visitor extends GISGrammarVisitor {
       if (entity) {
         layer.addSubLayer(entity.name, styleName);
       } else {
-        // GeoTIFF case: no associated entity exists
+        // GeoTIFF: no entity
         const normalizedId = id
           .replace(/Layer$/, "")
           .replace(/^(\d+)([A-Z][a-z]+)/, "$1_$2")
@@ -291,9 +358,7 @@ class Visitor extends GISGrammarVisitor {
       }
     }
 
-    this.log(`visitCreateWmsLayer ${id} - ${label}`);
-
-    this.store.getCurrentProduct().addLayer(layer);
+    return layer;
   }
 
   visitCreateMap(ctx, sortable) {
