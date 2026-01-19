@@ -1,5 +1,6 @@
 export default [
   "MapViewer",
+  "ChartViewer",
   "Tools",
   "DM_SpatialDatabase",
   "DM_GenerationType",
