@@ -216,6 +216,7 @@ class Visitor extends GISGrammarVisitor {
         strokeColor: null,
         fillOpacity: null,
         strokeOpacity: null,
+        strokeWidth: null,
       };
       const id = ctx.getChild(2).getText();
       const props = ctx.getChild(4).getText();
@@ -233,6 +234,8 @@ class Visitor extends GISGrammarVisitor {
           style.fillOpacity = parseFloat(field.split("fillOpacity")[1]);
         } else if (field.startsWith("strokeOpacity")) {
           style.strokeOpacity = parseFloat(field.split("strokeOpacity")[1]);
+        } else if (field.startsWith("strokeWidth")) {
+          style.strokeWidth = parseFloat(field.split("strokeWidth")[1]);
         }
       });
 
@@ -250,6 +253,7 @@ class Visitor extends GISGrammarVisitor {
             style.strokeColor,
             style.fillOpacity,
             style.strokeOpacity,
+            style.strokeWidth,
           ),
         );
     }
