@@ -6,6 +6,7 @@ export default class WMSStyleCustom {
     strokeColor,
     fillOpacity,
     strokeOpacity,
+    strokeWidth,
   ) {
     this.name = id;
     this.type = "WMSLayerStyle";
@@ -14,6 +15,7 @@ export default class WMSStyleCustom {
     this.strokeColor = strokeColor;
     this.fillOpacity = fillOpacity;
     this.strokeOpacity = strokeOpacity;
+    this.strokeWidth = strokeWidth;
   }
 
   getId() {

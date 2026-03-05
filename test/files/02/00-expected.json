@@ -125,7 +125,8 @@
         "fillColor": "#a8d925",
         "strokeColor": "#76981a",
         "fillOpacity": 0.7,
-        "strokeOpacity": 1
+        "strokeOpacity": 1,
+        "strokeWidth": null
       },
       {
         "name": "02ReliefLayerStyle",
@@ -134,7 +135,8 @@
         "fillColor": "#39b212",
         "strokeColor": "#287d0d",
         "fillOpacity": 0.7,
-        "strokeOpacity": 1
+        "strokeOpacity": 1,
+        "strokeWidth": null
       }
     ]
   }
