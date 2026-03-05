@@ -59,15 +59,15 @@ createWmsLayer: WMS_SYMBOL LAYER_SYMBOL identifier (AS_SYMBOL text)? OPAR_SYMBOL
   CPAR_SYMBOL SCOL_SYMBOL;
 
 wmsSubLayer:
-      identifier identifier              
+      identifier identifier
     | (wmsUrl wmsLayerName wmsFormatName? wmsCrs? wmsStyles? wmsQueryable? wmsAttribution? wmsBboxGroup? wmsVersion?)
 ;
 
-wmsUrl: 
+wmsUrl:
   URL_WMS_SYMBOL text
 ;
 
-wmsLayerName: 
+wmsLayerName:
   COMMA_SYMBOL LAYERNAME_SYMBOL text
 ;
 
@@ -217,7 +217,7 @@ fragment LETTER_WHEN_UNQUOTED: DIGIT | LETTER_WHEN_UNQUOTED_NO_DIGIT;
 fragment LETTER_WITHOUT_FLOAT_PART: [a-df-zA-DF-Z_$\u0080-\uffff];
 
 fragment UNDERLINE_SYMBOL: '_';
-fragment QUOTE_SYMBOL: '"';
+fragment QUOTE_SYMBOL: '"' | '\'';
 fragment MINUS_SYMBOL: '-';
 
 CREATE_SYMBOL: C R E A T E;
