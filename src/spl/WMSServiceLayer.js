@@ -27,7 +27,7 @@ export default class WMSServiceLayer extends WMSLayer {
     this.version = version;
 
     this.styles = styles;
-    this.defaultStyles = styles?.[0] || null;
+    this.defaultStyle = styles?.[0] || null;
     this.queryable = queryable;
     this.attribution = attribution;
 
