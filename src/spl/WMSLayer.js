@@ -6,7 +6,7 @@ export default class WMSLayer {
     this.list = null;
     this.layers = [];
     this.availableStyles = [];
-    this.defaultStyles = [];
+    this.defaultStyle = [];
   }
 
   getId() {
@@ -17,7 +17,7 @@ export default class WMSLayer {
     this.list = entityId;
     this.layers.push(entityId);
     if (style) this.availableStyles.push(style);
-    this.defaultStyles = style;
+    this.defaultStyle = style;
   }
 
   toString() {
