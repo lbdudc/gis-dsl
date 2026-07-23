@@ -51,5 +51,4 @@ export default [
   "D_C_Postgres",
   "D_C_Geoserver",
   "D_C_Nginx",
-  "MV_Processes",
 ];
