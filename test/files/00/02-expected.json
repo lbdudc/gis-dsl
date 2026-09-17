@@ -981,7 +981,7 @@
         "availableStyles": [
           "municipalityLayerStyle"
         ],
-        "defaultStyles": "municipalityLayerStyle"
+        "defaultStyle": "municipalityLayerStyle"
       },
       {
         "name": "buildingLayer",
@@ -994,7 +994,7 @@
         "availableStyles": [
           "buildingLayerStyle"
         ],
-        "defaultStyles": "buildingLayerStyle"
+        "defaultStyle": "buildingLayerStyle"
       },
       {
         "name": "roadBackgroundLayer",
@@ -1007,7 +1007,7 @@
         "availableStyles": [
           "roadBackgroundLayerStyle"
         ],
-        "defaultStyles": "roadBackgroundLayerStyle"
+        "defaultStyle": "roadBackgroundLayerStyle"
       },
       {
         "name": "roadLayer",
@@ -1020,7 +1020,7 @@
         "availableStyles": [
           "roadLayerStyle"
         ],
-        "defaultStyles": "roadLayerStyle"
+        "defaultStyle": "roadLayerStyle"
       },
       {
         "name": "demographyLayer",
@@ -1035,7 +1035,7 @@
           "populationEntityLayerStyle",
           "populationSettlementLayerStyle"
         ],
-        "defaultStyles": "populationSettlementLayerStyle"
+        "defaultStyle": "populationSettlementLayerStyle"
       },
       {
         "name": "supplyPipeLayer",

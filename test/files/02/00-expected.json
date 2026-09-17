@@ -103,7 +103,7 @@
           "01_city"
         ],
         "availableStyles": [],
-        "defaultStyles": null
+        "defaultStyle": null
       },
       {
         "name": "02ReliefLayer",
@@ -114,7 +114,7 @@
           "02_relief"
         ],
         "availableStyles": [],
-        "defaultStyles": null
+        "defaultStyle": null
       }
     ],
     "styles": [
