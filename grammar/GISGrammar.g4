@@ -148,7 +148,7 @@ propertyDefinition:
     | DISPLAYSTRING_SYMBOL
     | REQUIRED_SYMBOL
     | UNIQUE_SYMBOL
-  )*
+  )* (AS_SYMBOL text)?
 ;
 
 relationshipDefinition:

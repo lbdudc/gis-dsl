@@ -1,0 +1,11 @@
+CREATE GIS city_example USING 4326;
+USE GIS city_example;
+
+CREATE ENTITY Municipio (
+  id Long IDENTIFIER DISPLAY_STRING,
+  nombre String AS "Nombre del municipio",
+  poblacion Long REQUIRED AS "Población",
+  codigo String
+);
+
+GENERATE GIS city_example;
