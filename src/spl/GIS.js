@@ -184,6 +184,9 @@ class Property {
       if (params.displayString) {
         this.displayString = true;
       }
+      if (params.label) {
+        this.label = params.label;
+      }
     }
   }
 

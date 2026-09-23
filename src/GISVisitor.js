@@ -80,16 +80,30 @@ class Visitor extends GISGrammarVisitor {
     this.log(`visitPropertyDefinition: ${pName}`);
     const pType = ctx.getChild(1).getText();
 
-    this.store.getCurrentEntity().addProperty(
-      pName,
-      pType,
-      getPropertyParams(
-        ctx.children
-          .slice(2)
-          .filter((s) => s.getSymbol)
-          .map((s) => s.getSymbol().text.toLowerCase()),
-      ),
+    let params = getPropertyParams(
+      ctx.children
+        .slice(2)
+        .filter((s) => s.getSymbol)
+        .map((s) => s.getSymbol().text.toLowerCase()),
     );
+
+    // Optional trailing `AS "text"` — a human-friendly label for the property,
+    // distinct from its DSL identifier (which must stay a valid identifier:
+    // no spaces/accents/punctuation). The `text` rule child has no
+    // `.getSymbol()` (it's a parser rule, not a terminal), so the modifier
+    // filter above already skips both it and the AS_SYMBOL terminal before it.
+    const asIndex = ctx.children.findIndex(
+      (c) => c.getSymbol && c.getSymbol().text.toLowerCase() === "as",
+    );
+    if (asIndex !== -1) {
+      const label = ctx
+        .getChild(asIndex + 1)
+        .getText()
+        .slice(1, -1);
+      params = { ...(params || {}), label };
+    }
+
+    this.store.getCurrentEntity().addProperty(pName, pType, params);
   }
 
   visitOwnedRelationshipDefinition(ctx) {
