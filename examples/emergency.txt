@@ -1,0 +1,208 @@
+// Emergency Services and Disaster Management
+CREATE GIS emergency_response USING 4326;
+USE GIS emergency_response;
+
+CREATE ENTITY FireStation (
+  id Long IDENTIFIER,
+  name String DISPLAY_STRING REQUIRED,
+  stationNumber String REQUIRED UNIQUE,
+  numberOfFirefighters Integer,
+  numberOfVehicles Integer,
+  hasAmbulance Boolean,
+  responseRadius Double,
+  location Point,
+  serviceArea MultiPolygon,
+  vehicles EmergencyVehicle RELATIONSHIP MAPPED_BY station
+);
+
+CREATE ENTITY EmergencyVehicle (
+  id Long IDENTIFIER,
+  vehicleNumber String DISPLAY_STRING REQUIRED UNIQUE,
+  vehicleType String REQUIRED,
+  model String,
+  capacity Integer,
+  yearPurchased Integer,
+  operationalStatus String,
+  station FireStation RELATIONSHIP(1..*, 1..1) BIDIRECTIONAL
+);
+
+CREATE ENTITY PoliceStation (
+  id Long IDENTIFIER,
+  name String DISPLAY_STRING REQUIRED,
+  stationCode String REQUIRED UNIQUE,
+  jurisdiction String,
+  numberOfOfficers Integer,
+  hasDetention Boolean,
+  emergencyNumber String,
+  location Point,
+  patrolArea MultiPolygon
+);
+
+CREATE ENTITY Hospital (
+  id Long IDENTIFIER,
+  name String DISPLAY_STRING REQUIRED,
+  hospitalType String,
+  numberOfBeds Integer,
+  hasEmergencyRoom Boolean,
+  hasTraumaCenter Boolean,
+  hasHelipad Boolean,
+  emergencyCapacity Integer,
+  location Point
+);
+
+CREATE ENTITY EvacuationRoute (
+  id Long IDENTIFIER,
+  routeCode String DISPLAY_STRING REQUIRED UNIQUE,
+  routeType String,
+  capacity Integer,
+  estimatedTime Integer,
+  accessibilityLevel String,
+  path MultiLineString,
+  shelters EvacuationShelter RELATIONSHIP MAPPED_BY routes
+);
+
+CREATE ENTITY EvacuationShelter (
+  id Long IDENTIFIER,
+  name String DISPLAY_STRING REQUIRED,
+  capacity Integer,
+  hasPower Boolean,
+  hasWater Boolean,
+  hasMedicalSupplies Boolean,
+  accessibilityLevel String,
+  location Point,
+  boundary MultiPolygon,
+  routes EvacuationRoute RELATIONSHIP(0..*, 0..*)
+);
+
+CREATE ENTITY HazardZone (
+  id Long IDENTIFIER,
+  name String DISPLAY_STRING REQUIRED,
+  hazardType String REQUIRED,
+  riskLevel String,
+  populationAtRisk Integer,
+  lastAssessment LocalDate,
+  boundary MultiPolygon
+);
+
+CREATE ENTITY EmergencyIncident (
+  id Long IDENTIFIER,
+  incidentCode String DISPLAY_STRING REQUIRED UNIQUE,
+  incidentType String REQUIRED,
+  severity String,
+  reportedDate LocalDate REQUIRED,
+  resolvedDate LocalDate,
+  casualties Integer,
+  location Point
+);
+
+CREATE ENTITY Hydrant (
+  id Long IDENTIFIER,
+  hydrantNumber String DISPLAY_STRING REQUIRED UNIQUE,
+  hydrantType String,
+  flowRate Double,
+  installationDate LocalDate,
+  lastInspection LocalDate,
+  operationalStatus String,
+  location Point
+);
+
+CREATE TILE LAYER base AS "Base Map" (
+  url "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+);
+
+CREATE WMS STYLE evacuationRouteStyle (
+  geometryType LINE,
+  fillColor #00FF00,
+  strokeColor #008000,
+  fillOpacity 0.8,
+  strokeOpacity 1.0
+);
+
+CREATE WMS LAYER evacuationRouteLayer AS "Evacuation Routes" (
+  EvacuationRoute evacuationRouteStyle
+);
+
+CREATE WMS STYLE hazardZoneStyle (
+  geometryType POLYGON,
+  fillColor #FF0000,
+  strokeColor #8B0000,
+  fillOpacity 0.3,
+  strokeOpacity 0.8
+);
+
+CREATE WMS LAYER hazardZoneLayer AS "Hazard Zones" (
+  HazardZone hazardZoneStyle
+);
+
+CREATE GEOJSON LAYER fireStationLayer AS "Fire Stations" (
+  FireStation EDITABLE,
+  fillColor #DC143C,
+  strokeColor #8B0000,
+  fillOpacity 0.9,
+  strokeOpacity 1.0
+);
+
+CREATE GEOJSON LAYER policeStationLayer AS "Police Stations" (
+  PoliceStation EDITABLE,
+  fillColor #0000FF,
+  strokeColor #00008B,
+  fillOpacity 0.9,
+  strokeOpacity 1.0
+);
+
+CREATE GEOJSON LAYER hospitalLayer AS "Hospitals" (
+  Hospital EDITABLE,
+  fillColor #FFFFFF,
+  strokeColor #FF0000,
+  fillOpacity 0.9,
+  strokeOpacity 1.0
+);
+
+CREATE GEOJSON LAYER shelterLayer AS "Evacuation Shelters" (
+  EvacuationShelter EDITABLE,
+  fillColor #FFA500,
+  strokeColor #FF8C00,
+  fillOpacity 0.8,
+  strokeOpacity 1.0
+);
+
+CREATE GEOJSON LAYER incidentLayer AS "Emergency Incidents" (
+  EmergencyIncident EDITABLE,
+  fillColor #FF4500,
+  strokeColor #DC143C,
+  fillOpacity 0.9,
+  strokeOpacity 1.0
+);
+
+CREATE GEOJSON LAYER hydrantLayer AS "Fire Hydrants" (
+  Hydrant EDITABLE,
+  fillColor #4169E1,
+  strokeColor #191970,
+  fillOpacity 0.8,
+  strokeOpacity 1.0
+);
+
+CREATE MAP emergency AS "Emergency Services" (
+  base IS_BASE_LAYER,
+  fireStationLayer,
+  policeStationLayer,
+  hospitalLayer,
+  hydrantLayer HIDDEN
+);
+
+CREATE MAP evacuation AS "Evacuation Planning" (
+  base IS_BASE_LAYER,
+  hazardZoneLayer,
+  evacuationRouteLayer,
+  shelterLayer
+);
+
+CREATE SORTABLE MAP incidents AS "Incident Response" (
+  base IS_BASE_LAYER,
+  incidentLayer,
+  fireStationLayer,
+  policeStationLayer,
+  hospitalLayer
+);
+
+GENERATE GIS emergency_response;

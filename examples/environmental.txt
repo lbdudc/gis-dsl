@@ -1,0 +1,161 @@
+// Environmental Monitoring System
+CREATE GIS environmental_monitor USING 4326;
+USE GIS environmental_monitor;
+
+CREATE ENTITY ProtectedArea (
+  id Long IDENTIFIER,
+  name String DISPLAY_STRING REQUIRED,
+  protectionLevel String REQUIRED,
+  establishedDate LocalDate,
+  area Double,
+  managingAuthority String,
+  boundary MultiPolygon,
+  monitoringStations MonitoringStation RELATIONSHIP MAPPED_BY protectedArea
+);
+
+CREATE ENTITY MonitoringStation (
+  id Long IDENTIFIER,
+  stationCode String DISPLAY_STRING REQUIRED UNIQUE,
+  stationType String,
+  installationDate LocalDate,
+  operationalStatus String,
+  location Point,
+  protectedArea ProtectedArea RELATIONSHIP(1..*, 0..1) BIDIRECTIONAL,
+  measurements AirQualityMeasurement RELATIONSHIP MAPPED_BY station
+);
+
+CREATE ENTITY AirQualityMeasurement (
+  id Long IDENTIFIER,
+  measurementDate LocalDate REQUIRED,
+  pm25 Double,
+  pm10 Double,
+  ozone Double,
+  no2 Double,
+  so2 Double,
+  co Double,
+  station MonitoringStation RELATIONSHIP(0..*, 1..1) BIDIRECTIONAL
+);
+
+CREATE ENTITY WaterBody (
+  id Long IDENTIFIER,
+  name String DISPLAY_STRING REQUIRED,
+  waterType String,
+  area Double,
+  maxDepth Double,
+  waterQuality String,
+  boundary MultiPolygon,
+  samples WaterSample RELATIONSHIP MAPPED_BY waterBody
+);
+
+CREATE ENTITY WaterSample (
+  id Long IDENTIFIER,
+  sampleDate LocalDate REQUIRED,
+  pH Double,
+  dissolvedOxygen Double,
+  temperature Double,
+  turbidity Double,
+  location Point,
+  waterBody WaterBody RELATIONSHIP(1..*, 1..1) BIDIRECTIONAL
+);
+
+CREATE ENTITY ForestArea (
+  id Long IDENTIFIER,
+  name String DISPLAY_STRING,
+  forestType String,
+  area Double,
+  treeSpecies String,
+  lastSurveyDate LocalDate,
+  boundary MultiPolygon
+);
+
+CREATE ENTITY WildlifeObservation (
+  id Long IDENTIFIER,
+  species String REQUIRED,
+  observationDate LocalDate REQUIRED,
+  count Integer,
+  observer String,
+  notes String,
+  location Point,
+  protectedArea ProtectedArea RELATIONSHIP(0..*, 0..1)
+);
+
+CREATE TILE LAYER terrain AS "Terrain Map" (
+  url "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+);
+
+CREATE WMS STYLE protectedAreaStyle (
+  geometryType POLYGON,
+  fillColor #228B22,
+  strokeColor #006400,
+  fillOpacity 0.4,
+  strokeOpacity 0.9
+);
+
+CREATE WMS LAYER protectedAreaLayer AS "Protected Areas" (
+  ProtectedArea protectedAreaStyle
+);
+
+CREATE WMS STYLE waterBodyStyle (
+  geometryType POLYGON,
+  fillColor #1E90FF,
+  strokeColor #00008B,
+  fillOpacity 0.5,
+  strokeOpacity 0.8
+);
+
+CREATE WMS LAYER waterBodyLayer AS "Water Bodies" (
+  WaterBody waterBodyStyle
+);
+
+CREATE WMS STYLE forestStyle (
+  geometryType POLYGON,
+  fillColor #2E8B57,
+  strokeColor #1B4D2E,
+  fillOpacity 0.6,
+  strokeOpacity 0.9
+);
+
+CREATE WMS LAYER forestLayer AS "Forest Areas" (
+  ForestArea forestStyle
+);
+
+CREATE GEOJSON LAYER monitoringStationLayer AS "Monitoring Stations" (
+  MonitoringStation EDITABLE,
+  fillColor #FF6347,
+  strokeColor #DC143C,
+  fillOpacity 0.8,
+  strokeOpacity 1.0
+);
+
+CREATE GEOJSON LAYER waterSampleLayer AS "Water Samples" (
+  WaterSample EDITABLE,
+  fillColor #4169E1,
+  strokeColor #191970,
+  fillOpacity 0.7,
+  strokeOpacity 0.9
+);
+
+CREATE GEOJSON LAYER wildlifeLayer AS "Wildlife Observations" (
+  WildlifeObservation EDITABLE,
+  fillColor #8B4513,
+  strokeColor #654321,
+  fillOpacity 0.8,
+  strokeOpacity 1.0
+);
+
+CREATE MAP conservation AS "Conservation Areas" (
+  terrain IS_BASE_LAYER,
+  protectedAreaLayer,
+  forestLayer,
+  wildlifeLayer
+);
+
+CREATE SORTABLE MAP monitoring AS "Environmental Monitoring" (
+  terrain IS_BASE_LAYER,
+  protectedAreaLayer HIDDEN,
+  waterBodyLayer,
+  monitoringStationLayer,
+  waterSampleLayer
+);
+
+GENERATE GIS environmental_monitor;

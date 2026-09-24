@@ -1,0 +1,129 @@
+// Public Transportation Management System
+CREATE GIS transport_network USING 4326;
+USE GIS transport_network;
+
+CREATE ENTITY TransitLine (
+  id Long IDENTIFIER,
+  lineNumber String DISPLAY_STRING REQUIRED UNIQUE,
+  name String REQUIRED,
+  lineType String,
+  operatingHours String,
+  frequency Integer,
+  route MultiLineString,
+  stops BusStop RELATIONSHIP MAPPED_BY transitLine,
+  vehicles Vehicle RELATIONSHIP MAPPED_BY assignedLine
+);
+
+CREATE ENTITY BusStop (
+  id Long IDENTIFIER,
+  stopCode String DISPLAY_STRING REQUIRED UNIQUE,
+  name String REQUIRED,
+  hasSeating Boolean,
+  hasShelter Boolean,
+  accessibility Boolean,
+  location Point,
+  transitLine TransitLine RELATIONSHIP(1..*, 1..1) BIDIRECTIONAL
+);
+
+CREATE ENTITY Vehicle (
+  id Long IDENTIFIER,
+  vehicleNumber String DISPLAY_STRING REQUIRED UNIQUE,
+  model String,
+  capacity Integer,
+  yearManufactured Integer,
+  fuelType String,
+  status String,
+  assignedLine TransitLine RELATIONSHIP(0..*, 0..1)
+);
+
+CREATE ENTITY ParkingLot (
+  id Long IDENTIFIER,
+  name String DISPLAY_STRING REQUIRED,
+  totalSpaces Integer,
+  availableSpaces Integer,
+  hourlyRate Double,
+  isPublic Boolean,
+  boundary MultiPolygon,
+  location Point
+);
+
+CREATE ENTITY BikeLane (
+  id Long IDENTIFIER,
+  name String DISPLAY_STRING,
+  surface String,
+  width Double,
+  isBidirectional Boolean,
+  path MultiLineString
+);
+
+CREATE ENTITY TrafficLight (
+  id Long IDENTIFIER,
+  code String DISPLAY_STRING UNIQUE,
+  hasCamera Boolean,
+  lastMaintenance LocalDate,
+  location Point
+);
+
+CREATE TILE LAYER osm AS "OpenStreetMap" (
+  url "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+);
+
+CREATE WMS STYLE transitLineStyle (
+  geometryType LINE,
+  fillColor #FF4500,
+  strokeColor #DC143C,
+  fillOpacity 0.8,
+  strokeOpacity 1.0
+);
+
+CREATE WMS LAYER transitLineLayer AS "Transit Lines" (
+  TransitLine transitLineStyle
+);
+
+CREATE GEOJSON LAYER busStopLayer AS "Bus Stops" (
+  BusStop EDITABLE,
+  fillColor #FFD700,
+  strokeColor #FF8C00,
+  fillOpacity 0.9,
+  strokeOpacity 1.0
+);
+
+CREATE GEOJSON LAYER parkingLayer AS "Parking Lots" (
+  ParkingLot EDITABLE,
+  fillColor #4169E1,
+  strokeColor #191970,
+  fillOpacity 0.6,
+  strokeOpacity 0.8
+);
+
+CREATE GEOJSON LAYER bikeLaneLayer AS "Bike Lanes" (
+  BikeLane EDITABLE,
+  fillColor #32CD32,
+  strokeColor #228B22,
+  fillOpacity 0.7,
+  strokeOpacity 0.9
+);
+
+CREATE GEOJSON LAYER trafficLightLayer AS "Traffic Lights" (
+  TrafficLight EDITABLE,
+  fillColor #FF0000,
+  strokeColor #8B0000,
+  fillOpacity 0.8,
+  strokeOpacity 1.0
+);
+
+CREATE MAP transit AS "Public Transit" (
+  osm IS_BASE_LAYER,
+  transitLineLayer,
+  busStopLayer
+);
+
+CREATE SORTABLE MAP traffic AS "Traffic Management" (
+  osm IS_BASE_LAYER,
+  transitLineLayer HIDDEN,
+  bikeLaneLayer,
+  trafficLightLayer,
+  parkingLayer
+);
+
+GENERATE GIS transport_network;

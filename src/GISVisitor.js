@@ -5,6 +5,7 @@ import {
   GeoJSONLayer,
   WMSStyle,
   WMSLayer,
+  RasterLayer,
   Map,
   GeoJSONLayerStyle,
   WMSStyleCustom,
@@ -12,6 +13,17 @@ import {
 } from "./spl/Map.js";
 import { transformation, getPropertyParams } from "./GISVisitorHelper.js";
 // import { generateProduct } from "./project-generator.js";
+
+/* the Leaflet tile layer options a CREATE TILE LAYER may set */
+const TILE_OPTIONS = [
+  "attribution",
+  "minZoom",
+  "maxZoom",
+  "minNativeZoom",
+  "maxNativeZoom",
+  "subdomains",
+  "tms",
+];
 
 class Visitor extends GISGrammarVisitor {
   constructor(store, debug) {
@@ -143,18 +155,55 @@ class Visitor extends GISGrammarVisitor {
   /* ****************** Map & layers stuff ************************ */
 
   visitCreateTileLayer(ctx) {
-    const id = ctx.getChild(2).getText();
-    let label, url;
-    if (ctx.getChildCount() != 10) {
-      label = id;
-      url = ctx.getChild(5).getText().slice(1, -1);
-    } else {
-      // tiene AS label
-      label = ctx.getChild(4).getText().slice(1, -1);
-      url = ctx.getChild(7).getText().slice(1, -1);
-    }
+    const id = ctx.identifier().getText();
+    const unquote = (node) => node.getText().slice(1, -1);
+    const hasLabel = ctx.AS_SYMBOL() != null;
+    const label = hasLabel ? unquote(ctx.text(0)) : id;
+    const url = unquote(ctx.text(hasLabel ? 1 : 0));
+
+    const options = {};
+    (ctx.tileOption() || []).forEach((option) => {
+      const key = unquote(option.text(0));
+      const value = unquote(option.text(1));
+      if (!TILE_OPTIONS.includes(key)) {
+        throw `Unknown tile layer option "${key}" in ${id} (allowed: ${TILE_OPTIONS.join(", ")})`;
+      }
+      options[key] = this._tileOptionValue(value);
+    });
+
     this.log(`visitCreateTileLayer ${id} - ${label} (url: ${url})`);
-    this.store.getCurrentProduct().addLayer(new TileLayer(id, label, url));
+    this.store
+      .getCurrentProduct()
+      .addLayer(new TileLayer(id, label, url, options));
+  }
+
+  /* numbers and booleans are written as text in the DSL, Leaflet wants them typed */
+  _tileOptionValue(value) {
+    if (value === "true") return true;
+    if (value === "false") return false;
+    if (value !== "" && !isNaN(Number(value))) return Number(value);
+    return value;
+  }
+
+  visitCreateRasterLayer(ctx) {
+    const id = ctx.identifier(0).getText();
+    const unquote = (node) => node.getText().slice(1, -1);
+    const hasLabel = ctx.AS_SYMBOL() != null;
+    const label = hasLabel ? unquote(ctx.text(0)) : id;
+    const layerName = unquote(ctx.text(hasLabel ? 1 : 0));
+
+    let styleId = null;
+    if (ctx.STYLE_SYMBOL()) {
+      styleId = ctx.identifier(1).getText();
+      if (!this.store.getCurrentProduct().getStyle(styleId)) {
+        throw `Style ${styleId} used by the raster layer ${id} does not exist!!!`;
+      }
+    }
+
+    this.log(`visitCreateRasterLayer ${id} - ${label} (layer: ${layerName})`);
+    this.store
+      .getCurrentProduct()
+      .addLayer(new RasterLayer(id, label, layerName, styleId));
   }
 
   visitCreateGeoJSONLayer(ctx) {

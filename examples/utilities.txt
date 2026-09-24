@@ -1,0 +1,173 @@
+// Utilities Infrastructure Management
+CREATE GIS utilities_management USING 4326;
+USE GIS utilities_management;
+
+CREATE ENTITY ElectricSubstation (
+  id Long IDENTIFIER,
+  name String DISPLAY_STRING REQUIRED,
+  capacity Double REQUIRED,
+  voltage Integer,
+  installationDate LocalDate,
+  operationalStatus String,
+  location Point,
+  powerLines PowerLine RELATIONSHIP MAPPED_BY substation
+);
+
+CREATE ENTITY PowerLine (
+  id Long IDENTIFIER,
+  lineCode String DISPLAY_STRING REQUIRED UNIQUE,
+  voltage Integer,
+  lineType String,
+  material String,
+  installationYear Integer,
+  route MultiLineString,
+  substation ElectricSubstation RELATIONSHIP(1..*, 1..1) BIDIRECTIONAL,
+  poles PowerPole RELATIONSHIP MAPPED_BY powerLine
+);
+
+CREATE ENTITY PowerPole (
+  id Long IDENTIFIER,
+  poleNumber String DISPLAY_STRING REQUIRED UNIQUE,
+  height Double,
+  material String,
+  installationDate LocalDate,
+  lastInspection LocalDate,
+  location Point,
+  powerLine PowerLine RELATIONSHIP(1..*, 1..1) BIDIRECTIONAL
+);
+
+CREATE ENTITY GasPipeline (
+  id Long IDENTIFIER,
+  pipelineCode String DISPLAY_STRING REQUIRED UNIQUE,
+  diameter Integer,
+  material String,
+  pressure Double,
+  installationYear Integer,
+  route MultiLineString,
+  valves GasValve RELATIONSHIP MAPPED_BY pipeline
+);
+
+CREATE ENTITY GasValve (
+  id Long IDENTIFIER,
+  valveNumber String DISPLAY_STRING REQUIRED UNIQUE,
+  valveType String,
+  size Integer,
+  installationDate LocalDate,
+  automaticShutoff Boolean,
+  location Point,
+  pipeline GasPipeline RELATIONSHIP(1..*, 1..1) BIDIRECTIONAL
+);
+
+CREATE ENTITY TelecomCable (
+  id Long IDENTIFIER,
+  cableId String DISPLAY_STRING REQUIRED UNIQUE,
+  cableType String,
+  fiberCount Integer,
+  bandwidth Integer,
+  installationDate LocalDate,
+  route MultiLineString
+);
+
+CREATE ENTITY ServiceArea (
+  id Long IDENTIFIER,
+  areaCode String DISPLAY_STRING REQUIRED UNIQUE,
+  serviceType String,
+  population Integer,
+  coverage Double,
+  boundary MultiPolygon
+);
+
+CREATE TILE LAYER base AS "Base Map" (
+  url "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+);
+
+CREATE WMS STYLE powerLineStyle (
+  geometryType LINE,
+  fillColor #FFD700,
+  strokeColor #FF8C00,
+  fillOpacity 0.8,
+  strokeOpacity 1.0
+);
+
+CREATE WMS LAYER powerLineLayer AS "Power Lines" (
+  PowerLine powerLineStyle
+);
+
+CREATE WMS STYLE gasPipelineStyle (
+  geometryType LINE,
+  fillColor #FF4500,
+  strokeColor #8B0000,
+  fillOpacity 0.7,
+  strokeOpacity 0.9
+);
+
+CREATE WMS LAYER gasPipelineLayer AS "Gas Pipelines" (
+  GasPipeline gasPipelineStyle
+);
+
+CREATE WMS STYLE telecomStyle (
+  geometryType LINE,
+  fillColor #4169E1,
+  strokeColor #191970,
+  fillOpacity 0.6,
+  strokeOpacity 0.8
+);
+
+CREATE WMS LAYER telecomLayer AS "Telecom Cables" (
+  TelecomCable telecomStyle
+);
+
+CREATE GEOJSON LAYER substationLayer AS "Electric Substations" (
+  ElectricSubstation EDITABLE,
+  fillColor #FFD700,
+  strokeColor #DAA520,
+  fillOpacity 0.9,
+  strokeOpacity 1.0
+);
+
+CREATE GEOJSON LAYER powerPoleLayer AS "Power Poles" (
+  PowerPole EDITABLE,
+  fillColor #FFA500,
+  strokeColor #FF8C00,
+  fillOpacity 0.7,
+  strokeOpacity 0.9
+);
+
+CREATE GEOJSON LAYER gasValveLayer AS "Gas Valves" (
+  GasValve EDITABLE,
+  fillColor #DC143C,
+  strokeColor #8B0000,
+  fillOpacity 0.8,
+  strokeOpacity 1.0
+);
+
+CREATE GEOJSON LAYER serviceAreaLayer AS "Service Areas" (
+  ServiceArea EDITABLE,
+  fillColor #98FB98,
+  strokeColor #228B22,
+  fillOpacity 0.3,
+  strokeOpacity 0.7
+);
+
+CREATE MAP electric AS "Electric Network" (
+  base IS_BASE_LAYER,
+  powerLineLayer,
+  substationLayer,
+  powerPoleLayer
+);
+
+CREATE MAP gas AS "Gas Network" (
+  base IS_BASE_LAYER,
+  gasPipelineLayer,
+  gasValveLayer
+);
+
+CREATE SORTABLE MAP allUtilities AS "All Utilities" (
+  base IS_BASE_LAYER,
+  powerLineLayer,
+  gasPipelineLayer,
+  telecomLayer,
+  serviceAreaLayer HIDDEN
+);
+
+GENERATE GIS utilities_management;

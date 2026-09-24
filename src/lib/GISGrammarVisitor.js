@@ -48,6 +48,12 @@ export default class GISGrammarVisitor extends antlr4.tree.ParseTreeVisitor {
 	}
 
 
+	// Visit a parse tree produced by GISGrammarParser#tileOption.
+	visitTileOption(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
 	// Visit a parse tree produced by GISGrammarParser#createGeoJSONLayer.
 	visitCreateGeoJSONLayer(ctx) {
 	  return this.visitChildren(ctx);
@@ -68,6 +74,12 @@ export default class GISGrammarVisitor extends antlr4.tree.ParseTreeVisitor {
 
 	// Visit a parse tree produced by GISGrammarParser#createWmsLayer.
 	visitCreateWmsLayer(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by GISGrammarParser#createRasterLayer.
+	visitCreateRasterLayer(ctx) {
 	  return this.visitChildren(ctx);
 	}
 

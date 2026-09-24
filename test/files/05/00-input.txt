@@ -1,0 +1,27 @@
+CREATE GIS Tiles USING 4326;
+USE GIS Tiles;
+
+CREATE TILE LAYER base AS "OpenStreetMap" (
+  url "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+);
+
+CREATE TILE LAYER topoLayer AS "OpenTopoMap" (
+  url "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+  "attribution" "Map data: &copy; OpenStreetMap contributors, SRTM",
+  "minNativeZoom" "0",
+  "maxNativeZoom" "17",
+  "subdomains" "abc",
+  "tms" "false"
+);
+
+CREATE TILE LAYER plainLayer (
+  url "https://example.org/{z}/{x}/{y}.png"
+);
+
+CREATE SORTABLE MAP main AS "Main" (
+  base IS_BASE_LAYER,
+  topoLayer,
+  plainLayer
+);
+
+GENERATE GIS Tiles;

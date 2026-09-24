@@ -29,11 +29,14 @@ createEntity:
   CPAR_SYMBOL SCOL_SYMBOL
 ;
 
-createLayer: createTileLayer | createGeoJSONLayer | createWmsStyle | createWmsLayer | createMap | createSortableMap;
+createLayer: createTileLayer | createGeoJSONLayer | createWmsStyle | createWmsLayer | createRasterLayer | createMap | createSortableMap;
 
 createTileLayer: TILE_SYMBOL LAYER_SYMBOL identifier (AS_SYMBOL text)? OPAR_SYMBOL
-    URL_SYMBOL text
+    URL_SYMBOL text (COMMA_SYMBOL tileOption)*
   CPAR_SYMBOL SCOL_SYMBOL;
+
+// A Leaflet tile layer option as a quoted "key" "value" pair, e.g. "attribution" "..."
+tileOption: text text;
 
 createGeoJSONLayer: GEOJSON_SYMBOL LAYER_SYMBOL identifier (AS_SYMBOL text)? OPAR_SYMBOL
     identifier (EDITABLE_SYMBOL)? COMMA_SYMBOL
@@ -57,6 +60,11 @@ createWmsStyle: WMS_SYMBOL STYLE_SYMBOL identifier OPAR_SYMBOL
 
 createWmsLayer: WMS_SYMBOL LAYER_SYMBOL identifier (AS_SYMBOL text)? OPAR_SYMBOL
     wmsSubLayer (COMMA_SYMBOL wmsSubLayer)*
+  CPAR_SYMBOL SCOL_SYMBOL;
+
+// A raster (GeoTIFF) served by GeoServer under an explicit layer name
+createRasterLayer: RASTER_SYMBOL LAYER_SYMBOL identifier (AS_SYMBOL text)? OPAR_SYMBOL
+    LAYERNAME_SYMBOL text (COMMA_SYMBOL STYLE_SYMBOL identifier)?
   CPAR_SYMBOL SCOL_SYMBOL;
 
 wmsSubLayer:
@@ -248,6 +256,7 @@ FILL_OPACITY_SYMBOL: F I L L O P A C I T Y;
 STROKE_OPACITY_SYMBOL: S T R O K E O P A C I T Y;
 STROKE_WIDTH_SYMBOL: S T R O K E W I D T H;
 WMS_SYMBOL: W M S;
+RASTER_SYMBOL: R A S T E R;
 STYLE_SYMBOL: S T Y L E;
 IS_BASE_LAYER_SYMBOL: I S UNDERLINE_SYMBOL B A S E UNDERLINE_SYMBOL L A Y E R;
 HIDDEN_SYMBOL: H I D D E N;

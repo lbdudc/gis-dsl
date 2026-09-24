@@ -1,5 +1,6 @@
 import TileLayer from "./TileLayer.js";
 import WMSLayer from "./WMSLayer.js";
+import RasterLayer from "./RasterLayer.js";
 import WMSStyle from "./WMSStyle.js";
 import GeoJSONLayer from "./GeoJSONLayer.js";
 import GeoJSONLayerStyle from "./GeoJSONLayerStyle.js";
@@ -49,6 +50,7 @@ export {
   WMSStyle,
   WMSStyleCustom,
   WMSLayer,
+  RasterLayer,
   Map,
   GeoJSONLayerStyle,
   WMSServiceLayer,

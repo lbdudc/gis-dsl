@@ -68,6 +68,15 @@ export default class GISGrammarListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
+	// Enter a parse tree produced by GISGrammarParser#tileOption.
+	enterTileOption(ctx) {
+	}
+
+	// Exit a parse tree produced by GISGrammarParser#tileOption.
+	exitTileOption(ctx) {
+	}
+
+
 	// Enter a parse tree produced by GISGrammarParser#createGeoJSONLayer.
 	enterCreateGeoJSONLayer(ctx) {
 	}
@@ -101,6 +110,15 @@ export default class GISGrammarListener extends antlr4.tree.ParseTreeListener {
 
 	// Exit a parse tree produced by GISGrammarParser#createWmsLayer.
 	exitCreateWmsLayer(ctx) {
+	}
+
+
+	// Enter a parse tree produced by GISGrammarParser#createRasterLayer.
+	enterCreateRasterLayer(ctx) {
+	}
+
+	// Exit a parse tree produced by GISGrammarParser#createRasterLayer.
+	exitCreateRasterLayer(ctx) {
 	}
 
 

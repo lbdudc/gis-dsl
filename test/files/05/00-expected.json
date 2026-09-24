@@ -1,0 +1,119 @@
+{
+  "features": [
+    "MapViewer",
+    "ChartViewer",
+    "Tools",
+    "DM_SpatialDatabase",
+    "DM_GenerationType",
+    "MV_MapServer",
+    "MV_Tools",
+    "MV_MapManagement",
+    "DM_SD_PostGIS",
+    "DM_GT_Sequence",
+    "MV_MM_MultipleMapViewer",
+    "MV_MM_MMV_MapSelectorInMapViewer",
+    "MV_MM_MMV_MapSelectorInMenuElement",
+    "MV_MS_GeoServer",
+    "GUI_Lists",
+    "GUI_L_FormLink",
+    "GUI_L_F_BasicSearch",
+    "GUI_L_Filterable",
+    "GUI_L_Sortable",
+    "GUI_L_LocateInMap",
+    "GUI_L_ViewListAsMap",
+    "MV_ContextInformation",
+    "MV_CI_Scale",
+    "MV_CI_Map",
+    "MV_CI_CenterCoordinates",
+    "MV_CI_Dimensions",
+    "MV_DetailOnClick",
+    "MV_LayerManagement",
+    "MV_LM_CenterViewOnLayer",
+    "MV_LM_Order",
+    "MV_LM_Opacity",
+    "MV_LM_HideLayer",
+    "MV_LM_Style",
+    "MV_LM_ExternalLayer",
+    "MV_LM_StylePreview",
+    "MV_T_E_Type",
+    "MV_T_E_F_URL",
+    "MV_T_E_F_PDF",
+    "MV_T_E_SetScale",
+    "MV_T_E_ShowLegend",
+    "MV_T_InformationMode",
+    "MV_T_MeasureControl",
+    "MV_T_ZoomWindow",
+    "MV_T_ViewMapAsList",
+    "DM_DataInput",
+    "DM_DI_DataFeeding",
+    "DM_DI_DF_Shapefile",
+    "T_GIS",
+    "T_EntitiesInformation",
+    "D_C_Postgres",
+    "D_C_Geoserver",
+    "D_C_Nginx"
+  ],
+  "basicData": {
+    "name": "Tiles"
+  },
+  "data": {
+    "dataModel": {
+      "entities": [],
+      "enums": []
+    }
+  },
+  "mapViewer": {
+    "maps": [
+      {
+        "name": "main",
+        "label": "Main",
+        "sortable": true,
+        "layers": [
+          {
+            "name": "base",
+            "baseLayer": true,
+            "selected": true
+          },
+          {
+            "name": "topoLayer",
+            "baseLayer": false,
+            "selected": true
+          },
+          {
+            "name": "plainLayer",
+            "baseLayer": false,
+            "selected": true
+          }
+        ]
+      }
+    ],
+    "layers": [
+      {
+        "name": "base",
+        "type": "tilelayer",
+        "label": "OpenStreetMap",
+        "url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+      },
+      {
+        "name": "topoLayer",
+        "type": "tilelayer",
+        "label": "OpenTopoMap",
+        "url": "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+        "options": {
+          "attribution": "Map data: &copy; OpenStreetMap contributors, SRTM",
+          "minNativeZoom": 0,
+          "maxNativeZoom": 17,
+          "subdomains": "abc",
+          "tms": false
+        }
+      },
+      {
+        "name": "plainLayer",
+        "type": "tilelayer",
+        "label": "plainLayer",
+        "url": "https://example.org/{z}/{x}/{y}.png"
+      }
+    ],
+    "styles": []
+  }
+}

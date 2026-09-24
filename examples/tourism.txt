@@ -1,0 +1,201 @@
+// Tourism and Cultural Heritage Management
+CREATE GIS tourism_heritage USING 4326;
+USE GIS tourism_heritage;
+
+CREATE ENTITY HistoricSite (
+  id Long IDENTIFIER,
+  name String DISPLAY_STRING REQUIRED,
+  category String REQUIRED,
+  period String,
+  constructionDate LocalDate,
+  heritageStatus String,
+  visitorsPerYear Integer,
+  location Point,
+  boundary MultiPolygon,
+  tours TourRoute RELATIONSHIP MAPPED_BY historicSites
+);
+
+CREATE ENTITY Museum (
+  id Long IDENTIFIER,
+  name String DISPLAY_STRING REQUIRED,
+  type String,
+  foundedYear Integer,
+  collectionSize Integer,
+  admissionFee Double,
+  openingHours String,
+  hasGuidedTours Boolean,
+  location Point
+);
+
+CREATE ENTITY Hotel (
+  id Long IDENTIFIER,
+  name String DISPLAY_STRING REQUIRED,
+  category String,
+  starRating Integer,
+  numberOfRooms Integer,
+  hasRestaurant Boolean,
+  hasParking Boolean,
+  priceRange String,
+  location Point,
+  boundary MultiPolygon
+);
+
+CREATE ENTITY Restaurant (
+  id Long IDENTIFIER,
+  name String DISPLAY_STRING REQUIRED,
+  cuisineType String,
+  priceRange String,
+  seatingCapacity Integer,
+  hasOutdoorSeating Boolean,
+  rating Double,
+  location Point
+);
+
+CREATE ENTITY TourRoute (
+  id Long IDENTIFIER,
+  name String DISPLAY_STRING REQUIRED,
+  duration Integer,
+  difficulty String,
+  length Double,
+  path MultiLineString,
+  historicSites HistoricSite RELATIONSHIP(0..*, 0..*),
+  viewpoints Viewpoint RELATIONSHIP MAPPED_BY tourRoute
+);
+
+CREATE ENTITY Viewpoint (
+  id Long IDENTIFIER,
+  name String DISPLAY_STRING REQUIRED,
+  elevation Double,
+  hasSeating Boolean,
+  hasParking Boolean,
+  accessibility Boolean,
+  location Point,
+  tourRoute TourRoute RELATIONSHIP(1..*, 0..1) BIDIRECTIONAL
+);
+
+CREATE ENTITY Beach (
+  id Long IDENTIFIER,
+  name String DISPLAY_STRING REQUIRED,
+  length Double,
+  hasLifeguard Boolean,
+  hasShowers Boolean,
+  hasRestaurant Boolean,
+  accessibility Boolean,
+  blueFlag Boolean,
+  boundary MultiPolygon
+);
+
+CREATE ENTITY NaturalPark (
+  id Long IDENTIFIER,
+  name String DISPLAY_STRING REQUIRED,
+  parkType String,
+  area Double,
+  establishedYear Integer,
+  visitorCenter Boolean,
+  hikingTrails Integer,
+  boundary MultiPolygon
+);
+
+CREATE TILE LAYER tourist AS "Tourist Map" (
+  url "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+);
+
+CREATE WMS STYLE historicSiteStyle (
+  geometryType POINT,
+  fillColor #8B4513,
+  strokeColor #654321,
+  fillOpacity 0.9,
+  strokeOpacity 1.0
+);
+
+CREATE WMS LAYER historicSiteLayer AS "Historic Sites" (
+  HistoricSite historicSiteStyle
+);
+
+CREATE WMS STYLE tourRouteStyle (
+  geometryType LINE,
+  fillColor #FF6347,
+  strokeColor #DC143C,
+  fillOpacity 0.7,
+  strokeOpacity 0.9
+);
+
+CREATE WMS LAYER tourRouteLayer AS "Tour Routes" (
+  TourRoute tourRouteStyle
+);
+
+CREATE WMS STYLE naturalParkStyle (
+  geometryType POLYGON,
+  fillColor #32CD32,
+  strokeColor #228B22,
+  fillOpacity 0.4,
+  strokeOpacity 0.8
+);
+
+CREATE WMS LAYER naturalParkLayer AS "Natural Parks" (
+  NaturalPark naturalParkStyle
+);
+
+CREATE GEOJSON LAYER museumLayer AS "Museums" (
+  Museum EDITABLE,
+  fillColor #9370DB,
+  strokeColor #8B008B,
+  fillOpacity 0.8,
+  strokeOpacity 1.0
+);
+
+CREATE GEOJSON LAYER hotelLayer AS "Hotels" (
+  Hotel EDITABLE,
+  fillColor #4169E1,
+  strokeColor #191970,
+  fillOpacity 0.7,
+  strokeOpacity 0.9
+);
+
+CREATE GEOJSON LAYER restaurantLayer AS "Restaurants" (
+  Restaurant EDITABLE,
+  fillColor #FFA500,
+  strokeColor #FF8C00,
+  fillOpacity 0.8,
+  strokeOpacity 1.0
+);
+
+CREATE GEOJSON LAYER viewpointLayer AS "Viewpoints" (
+  Viewpoint EDITABLE,
+  fillColor #00CED1,
+  strokeColor #008B8B,
+  fillOpacity 0.9,
+  strokeOpacity 1.0
+);
+
+CREATE GEOJSON LAYER beachLayer AS "Beaches" (
+  Beach EDITABLE,
+  fillColor #F0E68C,
+  strokeColor #DAA520,
+  fillOpacity 0.6,
+  strokeOpacity 0.8
+);
+
+CREATE MAP heritage AS "Cultural Heritage" (
+  tourist IS_BASE_LAYER,
+  historicSiteLayer,
+  museumLayer,
+  tourRouteLayer
+);
+
+CREATE MAP accommodation AS "Accommodation & Dining" (
+  tourist IS_BASE_LAYER,
+  hotelLayer,
+  restaurantLayer
+);
+
+CREATE SORTABLE MAP attractions AS "Tourist Attractions" (
+  tourist IS_BASE_LAYER,
+  historicSiteLayer,
+  naturalParkLayer,
+  beachLayer,
+  viewpointLayer,
+  museumLayer HIDDEN
+);
+
+GENERATE GIS tourism_heritage;

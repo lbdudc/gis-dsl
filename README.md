@@ -22,6 +22,36 @@ const spec = gisdslParser(inputString);
 
 The DSL instance must finish with a `GENERATE GIS` sentence in order to work. See examples within the tests files.
 
+## Raster and tile layers
+
+A raster (GeoTIFF) published by GeoServer has no entity behind it, so its
+GeoServer layer name is given explicitly. The optional style must have been
+created before with `CREATE WMS STYLE`; without one GeoServer's default raster
+style is used:
+
+```
+CREATE RASTER LAYER elevationLayer AS "Elevation" (
+  layerName "r_elevation",
+  style elevationLayerStyle
+);
+```
+
+It becomes a `wms` layer in the spec with `raster: true`.
+
+A tile layer takes optional Leaflet options as quoted `"key" "value"` pairs
+(`attribution`, `minZoom`, `maxZoom`, `minNativeZoom`, `maxNativeZoom`,
+`subdomains`, `tms`; any other key is an error):
+
+```
+CREATE TILE LAYER topoLayer AS "OpenTopoMap" (
+  url "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+  "attribution" "Map data: &copy; OpenStreetMap contributors",
+  "maxNativeZoom" "17"
+);
+```
+
+Note that `RASTER` is now a keyword, so it can't be used as an identifier.
+
 ## Pre-requisites
 
 - Have installed in your machine:

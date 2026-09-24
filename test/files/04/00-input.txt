@@ -1,0 +1,27 @@
+CREATE GIS Rasters USING 4326;
+USE GIS Rasters;
+
+CREATE WMS STYLE elevationLayerStyle (
+  styleLayerDescriptor "elevation.sld"
+);
+
+CREATE RASTER LAYER elevationLayer AS "Elevation" (
+  layerName "r_elevation",
+  style elevationLayerStyle
+);
+
+CREATE RASTER LAYER hillshadeLayer (
+  layerName "r_hillshade"
+);
+
+CREATE TILE LAYER base AS "OpenStreetMap" (
+  url "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+);
+
+CREATE SORTABLE MAP main AS "Main" (
+  base IS_BASE_LAYER,
+  elevationLayer,
+  hillshadeLayer HIDDEN
+);
+
+GENERATE GIS Rasters;

@@ -1,0 +1,105 @@
+// Agricultural Land Management System
+CREATE GIS agriculture_system USING 4326;
+USE GIS agriculture_system;
+
+CREATE ENTITY Farm (
+  id Long IDENTIFIER,
+  name String DISPLAY_STRING REQUIRED,
+  owner String REQUIRED,
+  totalArea Double,
+  registrationDate LocalDate,
+  boundary MultiPolygon,
+  parcels Parcel RELATIONSHIP MAPPED_BY farm,
+  irrigationSystems IrrigationSystem RELATIONSHIP MAPPED_BY farm
+);
+
+CREATE ENTITY Parcel (
+  id Long IDENTIFIER,
+  code String DISPLAY_STRING REQUIRED UNIQUE,
+  cropType String REQUIRED,
+  area Double,
+  soilType String,
+  boundary MultiPolygon,
+  farm Farm RELATIONSHIP(1..*, 1..1) BIDIRECTIONAL
+);
+
+CREATE ENTITY IrrigationSystem (
+  id Long IDENTIFIER,
+  name String DISPLAY_STRING,
+  type String,
+  capacity Double,
+  status String,
+  location Point,
+  network MultiLineString,
+  farm Farm RELATIONSHIP(1..*, 0..1) BIDIRECTIONAL
+);
+
+CREATE ENTITY SoilSample (
+  id Long IDENTIFIER,
+  sampleDate LocalDate REQUIRED,
+  pH Double,
+  nitrogen Double,
+  phosphorus Double,
+  potassium Double,
+  location Point,
+  parcel Parcel RELATIONSHIP(0..*, 1..1)
+);
+
+CREATE ENTITY CropYield (
+  id Long IDENTIFIER,
+  year Integer REQUIRED,
+  season String,
+  yieldAmount Double,
+  harvestDate LocalDate,
+  parcel Parcel RELATIONSHIP(0..*, 1..1)
+);
+
+CREATE TILE LAYER satellite AS "Satellite Imagery" (
+  url "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+);
+
+CREATE WMS STYLE farmLayerStyle (
+  geometryType POLYGON,
+  fillColor #90EE90,
+  strokeColor #228B22,
+  fillOpacity 0.6,
+  strokeOpacity 1.0
+);
+
+CREATE WMS LAYER farmLayer AS "Farms" (
+  Farm farmLayerStyle
+);
+
+CREATE GEOJSON LAYER parcelLayer AS "Parcels" (
+  Parcel EDITABLE,
+  fillColor #FFFFE0,
+  strokeColor #FFD700,
+  fillOpacity 0.5,
+  strokeOpacity 0.8
+);
+
+CREATE GEOJSON LAYER irrigationLayer AS "Irrigation Systems" (
+  IrrigationSystem EDITABLE,
+  fillColor #4169E1,
+  strokeColor #000080,
+  fillOpacity 0.7,
+  strokeOpacity 0.9
+);
+
+CREATE GEOJSON LAYER soilSampleLayer AS "Soil Samples" (
+  SoilSample EDITABLE,
+  fillColor #8B4513,
+  strokeColor #654321,
+  fillOpacity 0.8,
+  strokeOpacity 1.0
+);
+
+CREATE SORTABLE MAP agriculture AS "Agricultural Management" (
+  satellite IS_BASE_LAYER,
+  farmLayer,
+  parcelLayer,
+  irrigationLayer,
+  soilSampleLayer
+);
+
+GENERATE GIS agriculture_system;
